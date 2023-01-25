@@ -1,0 +1,26 @@
+.map {
+    height:600px;
+    width:100%;
+  }
+  
+  .marker-driver {
+    background-image: url('https://cdn3.iconfinder.com/data/icons/line-color-vol-1/100/63_-512.png');
+    background-size: cover;
+    height: 30px;
+    width: 30px;
+  }
+  
+  .marker-delivery {
+    background-image: url('https://i.imgur.com/cIooqnp.png');
+    background-size: cover;
+    width: 22px;
+    height: 22px;
+    border-radius: 15px;
+    border: solid darkslategrey 3px;
+  }
+
+  .map_wrapper {
+    margin-top: 32px;
+    height: 100vh;
+    overflow: hidden;
+  }
