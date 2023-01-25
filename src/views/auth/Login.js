@@ -1,13 +1,12 @@
 import React from "react";
 import Navbar from "components/Navbars/AuthNavbar.js";
 import FooterSmall from "components/Footers/FooterSmall.js";
-import { useState,useEffect } from "react";
+import { useState } from "react";
 // import { useNavigate } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 
-export default function Login(props) {
+export default function Login() {
   // const navigate = useNavigate();
-  const {testProp} = props
   const history = useHistory();
   const [role, setRole] = useState("admin");
   const [userId,setUserId] = useState(0);
@@ -22,9 +21,6 @@ export default function Login(props) {
     // navigate(`/${role}/${userId}`);
     history.push(`/${role}/${userId}`);
   }
-  useEffect(() => {
-    console.log(testProp)
-  }, []);
   return (
     <>
       <Navbar transparent />
@@ -73,19 +69,6 @@ export default function Login(props) {
                           onChange = {handleChangeUserId}
                         />
                       </div>
-                      {/* <div>
-                        <label className="inline-flex items-center cursor-pointer">
-                          <input
-                            id="customCheckLogin"
-                            type="checkbox"
-                            className="form-checkbox border-0 rounded text-blueGray-700 ml-1 w-5 h-5 ease-linear transition-all duration-150"
-                          />
-                          <span className="ml-2 text-sm font-semibold text-blueGray-600">
-                            Remember me
-                          </span>
-                        </label>
-                      </div> */}
-
                       <div className="text-center mt-6">
                         <button
                           className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"

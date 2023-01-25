@@ -8,7 +8,9 @@ const GlobalContextProvider = (props) => {
         <GlobalContext.Provider 
             value={{
                 allDriverDestinations,
-                setAllDriverDestinations
+                setAllDriverDestinations,
+                dayStarted,
+                setDayStarted
              }}
         >
             {props.children}

@@ -25,7 +25,6 @@ export default function Admin(props) {
   }
 
   const handleLoadDriver = () => {
-    console.log(allDriverDestinations[driverId])
     setDestinations(allDriverDestinations[driverId]?.map((dest,i) => {
       return({
         ...dest,
