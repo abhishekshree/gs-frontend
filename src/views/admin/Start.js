@@ -3,9 +3,10 @@ import { useState,useContext } from 'react';
 import Loading from "components/Loading/loading.js";
 import { GlobalContext } from "context/gobalContext.js";
 import { useHistory } from "react-router-dom";
-
+import Admin from "API/admin/admin.js"
 
 export default function Start(props) {
+    var FormData = require('form-data');
     const {role,userId} = props;
     const {dayStarted,setDayStarted} = useContext(GlobalContext);
     const [loading,setLoading] = useState(false);
@@ -23,6 +24,12 @@ export default function Start(props) {
           return;
         }
         setLoading(true)
+
+        var destinationsData = new FormData()
+        destinationsData.append('file',file);
+        destinationsData.append('no-of_drivers',)
+        Admin.postAdminInput()
+
         fetch('/admin/destinations', {
           method: 'POST',
           body: file,
