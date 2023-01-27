@@ -6,11 +6,13 @@ import { driverDestinations } from "constants.js";
 import BottomDrawer from "../../components/BottomDrawer/BottomDrawer.js"
 import SwipeableEdgeDrawer from "components/BottomDrawer/SwipeableEdgeDrawer.js";
 import { GlobalContext } from "context/gobalContext.js";
+import { AdminAPIs } from "API/admin/admin.js"
 
 export default function Admin(props) {
   const {allDriverDestinations,setAllDriverDestinations} = useContext(GlobalContext);
   const {role,userId} = props;
 
+  const [drivers,setDrivers] = useState([])
   const [openTab, setOpenTab] = useState(1);
   const [driverId,setDriverId] = useState(null);
   const [destinations,setDestinations] = useState([]);
@@ -34,6 +36,9 @@ export default function Admin(props) {
   }
 
   useEffect(() => {
+    const drivers = AdminAPIs.getAdminDrivers(userId)
+    setDrivers(drivers)
+    console.log(drivers)
     setAllDriverDestinations(driverDestinations)
   }, []);
 

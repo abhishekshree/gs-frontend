@@ -7,21 +7,18 @@ const instance = axios.create({
     timeoutErrorMessage: SERVER_ERROR,
 });
 
-export const Admin = {
+export const AdminAPIs = {
     createAdmin: () => {
         instance
             .post()
     },
-    getAllAdmins: () => {
+    getAdminDrivers: (adminId) => {
         instance
-            .get()
-    },
-    getAllDrivers: () => {
-        instance
-            .get()
-    },
-    getAdminDrivers: () => {
-
+            .get(`${BASE_URL}/get/admin/drivers?admin_id=${adminId}`)
+            .then(responseBody)
+            .catch((err) => {
+                console.log(err)
+            })
     },
     getAdminDriverOutput: (adminId) => {
         instance
@@ -33,12 +30,7 @@ export const Admin = {
     },
     postAdminInput: (data) => {
         instance
-            .post(`${BASE_URL}/post/admin/dynamicpoint`, 
-            data, {
-                headers: {
-                    ...data.getHeaders()
-                }
-            })
+            .post(`${BASE_URL}/post/admin/dynamicpoint`, data)
             .then(responseBody)
             .catch((err) => {
                 console.log(err)

@@ -3,9 +3,11 @@ import { useState,useContext } from 'react';
 import Loading from "components/Loading/loading.js";
 import { GlobalContext } from "context/gobalContext.js";
 import { useHistory } from "react-router-dom";
-import Admin from "API/admin/admin.js"
+import { AdminAPIs } from "API/admin/admin.js"
+import axios from "axios";
 
 export default function Start(props) {
+    // var axios = require('axios');
     var FormData = require('form-data');
     const {role,userId} = props;
     const {dayStarted,setDayStarted} = useContext(GlobalContext);
@@ -26,27 +28,32 @@ export default function Start(props) {
         setLoading(true)
 
         var destinationsData = new FormData()
-        destinationsData.append('file',file);
-        destinationsData.append('no-of_drivers',)
-        Admin.postAdminInput()
+        destinationsData.append('file',file,"banglore_pickups.xlsx");
+        destinationsData.append('no_of_drivers',5) // n_drivers input to be added
+        destinationsData.append('admin_id',userId)
+        // var config = {
+        //     method: 'post',
+        //     url: 'http://localhost:5000/post/admin/input',
+        //     data : destinationsData
+        // };
+        // // const res = AdminAPIs.postAdminInput(destinationsData)
+        // axios(config)
+        // .then((res) => {
+        //     console.log(res);
+        // })
+        // .catch((err) => {
+        //     console.log(err);
+        // })
+        axios.post('http://localhost:5050/post/admin/input', destinationsData, {
+            headers: destinationsData.getHeaders ? destinationsData.getHeaders() : { 'Content-Type': 'multipart/form-data' }
+        })
+        .then((res) => {
+            console.log(res);
+        })
+        .catch((err) => {
+            console.log(err);
+        })
 
-        fetch('/admin/destinations', {
-          method: 'POST',
-          body: file,
-          headers: {
-            'content-type': file.type,
-            'content-length': `${file.size}`,
-          },
-        })
-        .then((res) => res.json())
-        .then((data) => {
-            console.log(data);
-            // handleJourneyStarted()
-            setDayStarted(true);
-            const redirectUrl = "/admin/" + userId.toString()
-            history.replace(redirectUrl)
-        })
-        .catch((err) => console.error(err));
         setDayStarted(true);
         const redirectUrl = "/admin/" + userId.toString() //to be removed
         history.replace(redirectUrl)
