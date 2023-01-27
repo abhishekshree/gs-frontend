@@ -3,7 +3,7 @@ import { useState,useContext } from 'react';
 import Loading from "components/Loading/loading.js";
 import { GlobalContext } from "context/gobalContext.js";
 import { useHistory } from "react-router-dom";
-import { AdminAPIs } from "API/admin/admin.js"
+import { AdminAPIs } from "API/admin.js"
 import axios from "axios";
 
 export default function Start(props) {

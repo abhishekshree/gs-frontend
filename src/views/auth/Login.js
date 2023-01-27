@@ -4,13 +4,14 @@ import FooterSmall from "components/Footers/FooterSmall.js";
 import { useState } from "react";
 // import { useNavigate } from "react-router-dom";
 import { useHistory } from "react-router-dom";
+import { AdminAPIs } from "API/admin.js";
 
 export default function Login() {
   // const navigate = useNavigate();
   const history = useHistory();
   const [role, setRole] = useState("admin");
   const [userId,setUserId] = useState(0);
-
+  const [showCredentials,setShowCredentials] = useState("hidden");
   const handleSelectRole = (e) => {
     setRole(e.target.value);
   }
@@ -20,6 +21,14 @@ export default function Login() {
   const handleLogin = () => {
     // navigate(`/${role}/${userId}`);
     history.push(`/${role}/${userId}`);
+  }
+  const handleCreateAdmin = () => {
+    const res = AdminAPIs.createAdmin()
+    if(res){
+      setRole("admin");
+      setUserId(res?.id);
+      setShowCredentials("block");
+    }
   }
   return (
     <>
@@ -77,7 +86,19 @@ export default function Login() {
                         >
                           Log In
                         </button>
-                      </div>
+                        <button
+                          className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
+                          type="button"
+                          onClick={handleCreateAdmin}
+                        >
+                          Create Admin
+                        </button>
+                        <div className=""><p className={"text-base font-light leading-relaxed mt-0 mb-4 text-blueGray-800 " + showCredentials}>
+                          Admin has been created with the following credentials:
+                          </p><br />
+                          <p className="text-lg font-light leading-relaxed mt-6 mb-4 text-red-800">Admin Id :  {userId}</p>
+                        </div>
+                      </div>  
                     </form>
                   </div>
                 </div>
