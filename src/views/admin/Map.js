@@ -29,7 +29,7 @@ function Map({ currLocation, deliveryLocation, destinations, zoom_level, travel_
       `Location Number:${location.markerId}`
     );
     const marker = new tt.Marker({ id:location.markerId, element: marker_el, anchor: "bottom" })
-      .setLngLat([location.lng, location.lat])
+      .setLngLat([location.longitude, location.latitude])
       .addTo(map)
       .setPopup(popup)
       // .onClose(handleMarkerDeselect);
@@ -41,7 +41,7 @@ function Map({ currLocation, deliveryLocation, destinations, zoom_level, travel_
     const marker_el = document.createElement("div");
     marker_el.className = 'marker-driver';
     const marker = new tt.Marker({ element: marker_el, anchor: "bottom" })
-      .setLngLat([location.lng, location.lat])
+      .setLngLat([location.longitude, location.latitude])
       .addTo(map);
 
     return marker;
@@ -94,7 +94,7 @@ function Map({ currLocation, deliveryLocation, destinations, zoom_level, travel_
           create_delivery_marker(location);
         });
         create_driver_marker(currLocation);
-        const locations = waypoints.map((location) => [location.lng, location.lat])
+        const locations = waypoints.map((location) => [location.longitude, location.latitude])
 
         for (let i = 0; i < locations.length; i += 150) {
           if (i + 150 > locations.length) {

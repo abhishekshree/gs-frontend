@@ -4,10 +4,10 @@ export const GlobalContext = createContext()
 
 const GlobalContextProvider = (props) => {
     const [allDriverDestinations,setAllDriverDestinations] = useState(null);
-    const [dayStarted,setDayStarted] = useState({"1":true});
+    const [dayStarted,setDayStarted] = useState({});
     
     useEffect(() => {
-        // const adminDayStarted = AdminAPIs.getAdminDayStarted();
+        // const adminDayStarted = AdminAPIs.getAdminDayStarsted();
         // setDayStarted(adminDayStarted);
     }, []);
 

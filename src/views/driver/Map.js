@@ -17,7 +17,7 @@ function Map({ currLocation, deliveryLocation, destinations, zoom_level, travel_
         marker_el.id=deliveryLocation.locationId
         // const popup = new tt.Popup({ offset: 20 }).setText(location.name);
         const marker = new tt.Marker({ element: marker_el, anchor: "bottom" })
-        .setLngLat([location.lng, location.lat])
+        .setLngLat([location.longitude, location.latitude])
         .addTo(map);
 
         return marker;
@@ -27,7 +27,7 @@ function Map({ currLocation, deliveryLocation, destinations, zoom_level, travel_
       const marker_el = document.createElement("div");
       marker_el.className = 'marker-driver';
       const marker = new tt.Marker({ element: marker_el, anchor: "bottom" })
-        .setLngLat([location.lng, location.lat])
+        .setLngLat([location.longitude, location.latitude])
         .addTo(map);
   
       return marker;
@@ -37,8 +37,8 @@ function Map({ currLocation, deliveryLocation, destinations, zoom_level, travel_
         const routeOptions = {
           key: api_key,
           locations: [
-            [currLocation.lng, currLocation.lat],
-            [deliveryLocation.lng, deliveryLocation.lat],
+            [currLocation.longitude, currLocation.latitude],
+            [deliveryLocation.longitude, deliveryLocation.latitude],
           ],
           travelMode: travel_mode,
           vehicleCommercial: true,

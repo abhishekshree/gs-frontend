@@ -27,8 +27,8 @@ export default function Driver(props) {
   const userId = id;
   const adminId = getAdminFromDriverId(userId);
   // const {userId} = props;
-  const [currLocation,setCurrLocatoin] = useState({lat: 12.9140182, lng: 77.5747463});
-  const [deliveryLocation,setDeliveryLocation] = useState({lat: 12.9414398, lng: 77.5454111, locationId:1});
+  const [currLocation,setCurrLocatoin] = useState({latitude: 12.9140182, longitude: 77.5747463});
+  const [deliveryLocation,setDeliveryLocation] = useState({latitude: 12.9414398, longitude: 77.5454111, locationId:1});
   const [showOTPModal, setShowOTPModal] = React.useState(false);
   const [destinations,setDestinations] = useState([]);
   const [completedDest,setCompletedDest] = useState([]);

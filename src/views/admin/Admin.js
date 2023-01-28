@@ -16,8 +16,8 @@ export default function Admin(props) {
   const [openTab, setOpenTab] = useState(1);
   const [driverId,setDriverId] = useState(null);
   const [destinations,setDestinations] = useState([]);
-  const [currLocation,setCurrLocatoin] = useState({lat: 12.9140182, lng: 77.5747463});
-  const [deliveryLocation,setDeliveryLocation] = useState({lat: 12.9414398, lng: 77.5454111});
+  const [currLocation,setCurrLocatoin] = useState({latitude: 12.9140182, longitude: 77.5747463});
+  const [deliveryLocation,setDeliveryLocation] = useState({latitude: 12.9414398, longitude: 77.5454111});
   const [open, setOpen] = useState(false);
   const [markerSelected,setMarkerSelected] = useState(0);
 
