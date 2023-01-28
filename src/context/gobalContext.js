@@ -3,12 +3,12 @@ import React, { createContext, useState, useEffect } from 'react'
 export const GlobalContext = createContext()
 
 const GlobalContextProvider = (props) => {
-    const [allDriverDestinations,setAllDriverDestinations] = useState(null);
+    const [allDriverDestinations,setAllDriverDestinations] = useState({});
     const [dayStarted,setDayStarted] = useState({});
     
     useEffect(() => {
-        // const adminDayStarted = AdminAPIs.getAdminDayStarsted();
-        // setDayStarted(adminDayStarted);
+        const adminDayStarted = AdminAPIs.getAdminDayStarsted();
+        setDayStarted(adminDayStarted);
     }, []);
 
     return (

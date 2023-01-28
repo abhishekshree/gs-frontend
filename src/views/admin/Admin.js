@@ -6,11 +6,14 @@ import { driverDestinations } from "constants.js";
 import BottomDrawer from "../../components/BottomDrawer/BottomDrawer.js"
 import SwipeableEdgeDrawer from "components/BottomDrawer/SwipeableEdgeDrawer.js";
 import { GlobalContext } from "context/gobalContext.js";
-import { AdminAPIs } from "API/admin.js"
+import { AdminAPIs } from "API/admin.js";
+import { useParams } from "react-router-dom";
 
 export default function Admin(props) {
   const {allDriverDestinations,setAllDriverDestinations} = useContext(GlobalContext);
-  const {role,userId} = props;
+  const { id } = useParams();
+  const userId = id;
+  
 
   const [drivers,setDrivers] = useState([])
   const [openTab, setOpenTab] = useState(1);

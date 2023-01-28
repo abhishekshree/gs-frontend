@@ -29,6 +29,8 @@ ReactDOM.render(
         <Route path="/profile" exact component={Profile} />
         <Route path="/" exact component={Login} testProp="testProp"/>
         <Route path="/driver/:id" component={Driver}/>
+        <Route exact path="/admin/:id/start" component={Start}/>
+        <Route path="/admin/:id" component={AdminRouter}/>
         {
           [...Array(1000).keys()].map((userId) => <Route exact path={"/admin/"+userId.toString()+"/start"} render={() => <Start role="admin" userId={userId}/>}/>)
         }

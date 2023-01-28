@@ -5,6 +5,7 @@ import { GlobalContext } from "context/gobalContext.js";
 import { useHistory } from "react-router-dom";
 import { AdminAPIs } from "API/admin.js"
 import axios from "axios";
+import startRes from "assets/example_response.json";
 
 export default function Start(props) {
     // var axios = require('axios');
@@ -38,31 +39,34 @@ export default function Start(props) {
         destinationsData.append('file',file,"banglore_pickups.xlsx");
         destinationsData.append('no_of_drivers',nDrivers)
         destinationsData.append('admin_id',userId)
-        const inputRes = await AdminAPIs.postAdminInput(destinationsData)
-        if(!inputRes){
-            setLoading(false);
-            return
-        }
-        setSuccInputMsg("block");
-        const startRes = await AdminAPIs.postAdminStart(userId)
-        if(!startRes){
-            setSuccInputMsg("hidden");
-            setLoading(false);
-            return
-        }
+        // const inputRes = await AdminAPIs.postAdminInput(destinationsData)
+        // if(!inputRes){
+        //     setLoading(false);
+        //     return
+        // }
+        // setSuccInputMsg("block");
+        // const startRes = await  AdminAPIs.postAdminStart(userId)
+        // console.log(startRes)
+        // if(!startRes){
+        //     setSuccInputMsg("hidden");
+        //     setLoading(false);
+        //     return
+        // }
         const tempAllDriverDestinations = allDriverDestinations;
         const thisAdminDriverDest = {}
-        for (let i=0; i<inputRes.length; i++) {
+        for (let i=0; i<startRes.length; i++) {
             const driverId = userId.toString() + "_" + (i+1).toString();
-            thisAdminDriverDest[driverId] = inputRes[i];
+            thisAdminDriverDest[driverId] = startRes[i];
         }
         tempAllDriverDestinations[userId] = thisAdminDriverDest;
-        console.log(tempAllDriverDestinations);
         setAllDriverDestinations(tempAllDriverDestinations);
+        console.log(tempAllDriverDestinations);
 
         const temp = dayStarted;
         temp[userId] = true;
         setDayStarted(temp);
+        console.log(temp)
+        setLoading(false);
         const redirectUrl = "/admin/" + userId.toString() //to be removed
         history.replace(redirectUrl)
     };

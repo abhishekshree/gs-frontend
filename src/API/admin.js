@@ -67,9 +67,21 @@ export const AdminAPIs = {
                 console.log(err)
                 return null
             }),
-    // postAdminStart: () => {
-
-    // }
+    postAdminStart: (admin_id) => {
+        console.log("abkfgfv")
+        instance
+            .post(`${BASE_URL}/post/admin/start`,{admin_id: admin_id, hub_node: 144})
+            .then((res) => {
+                console.log(res.data)
+                
+                return res?.data
+            })
+            .catch((err) => {
+                errorNotification("Failed to start admin",err.response?.data?.error)
+                console.log(err);
+                return null
+            })
+    },
     getStartMap: () =>
         instance
             .get(`${BASE_URL}/get/admin/start`)
