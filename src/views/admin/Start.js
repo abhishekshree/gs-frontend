@@ -13,7 +13,13 @@ export default function Start(props) {
     const {dayStarted,setDayStarted} = useContext(GlobalContext);
     const [loading,setLoading] = useState(false);
     const [file, setFile] = useState();
+    const [nDrivers, setnDrivers] = useState(0);
+    const [succInputMsg,setSuccInputMsg] = useState("hidden")
     const history = useHistory();
+
+    const handleChangeNDrivers = (e) => {
+        setnDrivers(e.target.value);
+    }
 
     const handleFileChange = (e) => {
         if (e.target.files) {
@@ -21,7 +27,7 @@ export default function Start(props) {
         }
     };
     
-    const handleUploadClick = () => {
+    const handleUploadClick = async () => {
         if (!file) {
           return;
         }
@@ -29,14 +35,13 @@ export default function Start(props) {
 
         var destinationsData = new FormData()
         destinationsData.append('file',file,"banglore_pickups.xlsx");
-        destinationsData.append('no_of_drivers',5) // n_drivers input to be added
+        destinationsData.append('no_of_drivers',nDrivers)
         destinationsData.append('admin_id',userId)
         // var config = {
         //     method: 'post',
         //     url: 'http://localhost:5000/post/admin/input',
         //     data : destinationsData
         // };
-        // // const res = AdminAPIs.postAdminInput(destinationsData)
         // axios(config)
         // .then((res) => {
         //     console.log(res);
@@ -44,16 +49,21 @@ export default function Start(props) {
         // .catch((err) => {
         //     console.log(err);
         // })
-        axios.post('http://localhost:5050/post/admin/input', destinationsData, {
-            headers: destinationsData.getHeaders ? destinationsData.getHeaders() : { 'Content-Type': 'multipart/form-data' }
-        })
-        .then((res) => {
-            console.log(res);
-        })
-        .catch((err) => {
-            console.log(err);
-        })
-
+        // axios.post('http://localhost:5050/post/admin/input', destinationsData, {
+        //     headers: destinationsData.getHeaders ? destinationsData.getHeaders() : { 'Content-Type': 'multipart/form-data' }
+        // })
+        // .then((res) => {
+        //     console.log(res);
+        // })
+        // .catch((err) => {
+        //     console.log(err);
+        // })
+        const res = await AdminAPIs.postAdminInput(destinationsData)
+        if(!res){
+            setLoading(false);
+            return
+        }
+        setSuccInputMsg("block");
         setDayStarted(true);
         const redirectUrl = "/admin/" + userId.toString() //to be removed
         history.replace(redirectUrl)
@@ -70,24 +80,21 @@ export default function Start(props) {
                                 <div class="flex justify-center">
                                     <div class="mb-3 w-96">
                                         <label for="formFile" class="form-label inline-block mb-2 text-gray-700">drop destinations file</label>
-                                        <input class="form-control
-                                            block
-                                            w-full
-                                            px-3
-                                            py-1.5
-                                            text-base
-                                            font-normal
-                                            text-gray-700
-                                            bg-white bg-clip-padding
-                                            border border-solid border-gray-300
-                                            rounded
-                                            transition
-                                            ease-in-out
-                                            m-0
-                                            focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" type="file" id="formFile"
+                                        <input class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" type="file" id="formFile"
                                             onChange={handleFileChange}
                                         />
                                     </div>
+                                    <label
+                                        className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                                        htmlFor="grid-password"
+                                    >
+                                        No of Drives
+                                    </label>
+                                    <input
+                                        className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                                        value = {nDrivers}
+                                        onChange = {handleChangeNDrivers}
+                                    />
                                 </div>
                                 <button className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-sm px-6 py-3 rounded-full shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 w-1/4 ml-auto" type="button" onClick={handleUploadClick}>
                                     Start Journey
@@ -98,7 +105,21 @@ export default function Start(props) {
                     </div>
                     )
                 }
-                {(loading)&&(<Loading />)}
+                {
+                    (loading)&&(
+                        <>
+                            <Loading />
+                            <div className={succInputMsg}>
+                                <p className="text-base font-light leading-relaxed mt-0 mb-4 text-blueGray-800 ">
+                                    Input Successful!
+                                </p>
+                                <p className="text-lg font-light leading-relaxed mt-6 mb-4 text-red-800">
+                                    Waiting for the driver information
+                                </p>
+                            </div>
+                        </>
+                    )
+                }
             </div>
         </div>
     );

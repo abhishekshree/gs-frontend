@@ -22,8 +22,9 @@ export default function Login() {
     // navigate(`/${role}/${userId}`);
     history.push(`/${role}/${userId}`);
   }
-  const handleCreateAdmin = () => {
-    const res = AdminAPIs.createAdmin()
+  const handleCreateAdmin = async () => {
+    const res = await AdminAPIs.createAdmin()
+    console.log(res)
     if(res){
       setRole("admin");
       setUserId(res?.id);
@@ -93,9 +94,9 @@ export default function Login() {
                         >
                           Create Admin
                         </button>
-                        <div className=""><p className={"text-base font-light leading-relaxed mt-0 mb-4 text-blueGray-800 " + showCredentials}>
+                        <div className={showCredentials}><p className="text-base font-light leading-relaxed mt-0 mb-4 text-blueGray-800 ">
                           Admin has been created with the following credentials:
-                          </p><br />
+                          </p>
                           <p className="text-lg font-light leading-relaxed mt-6 mb-4 text-red-800">Admin Id :  {userId}</p>
                         </div>
                       </div>  
