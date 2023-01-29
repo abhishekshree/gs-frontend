@@ -11,17 +11,13 @@ export default function AdminRouter(props){
     const userId = id;
 
     return(
-        <BrowserRouter>
-            <Switch>
-                <Route>
-                    {
-                        dayStarted && (
-                            dayStarted[Number(userId)] ? 
-                            <Admin/> : 
-                            <Redirect to={"/admin/"+userId.toString()+"/start"} />
-                    )}
-                </Route>
-            </Switch>
-        </BrowserRouter>
+        <Route>
+            {
+                dayStarted && (
+                    dayStarted[Number(userId)] ? 
+                    <Admin/> : 
+                    <Redirect to={"/admin/"+userId.toString()+"/start"} />
+            )}
+        </Route>
     )
 }

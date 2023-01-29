@@ -3,7 +3,6 @@ import { useState, useEffect, useContext } from 'react';
 
 import Map from "views/admin/Map.js";
 import { driverDestinations } from "constants.js";
-import BottomDrawer from "../../components/BottomDrawer/BottomDrawer.js"
 import SwipeableEdgeDrawer from "components/BottomDrawer/SwipeableEdgeDrawer.js";
 import { GlobalContext } from "context/gobalContext.js";
 import { AdminAPIs } from "API/admin.js";
@@ -13,7 +12,6 @@ export default function Admin(props) {
   const {allDriverDestinations,setAllDriverDestinations} = useContext(GlobalContext);
   const { id } = useParams();
   const userId = id;
-  
 
   const [drivers,setDrivers] = useState([])
   const [openTab, setOpenTab] = useState(1);
@@ -33,7 +31,7 @@ export default function Admin(props) {
     if(!driverId)
       return
 
-    setDestinations(driverDestinations[driverId]?.map((dest,i) => { //need to change this to get from backend
+    setDestinations(allDriverDestinations[userId][driverId]?.map((dest,i) => { //need to change this to get from backend
       return({
         ...dest,
         markerId: i+1
@@ -42,12 +40,14 @@ export default function Admin(props) {
   }
 
   useEffect(() => {
-    async function getDrivers(){
-      const res = await AdminAPIs.getAdminDrivers(userId)
-      setDrivers(res)
-    }
-    getDrivers()
-    // console.log(drivers)
+    // async function getDrivers(){
+    //   const res = await AdminAPIs.getAdminDrivers(userId)
+    //   setDrivers(res)
+    //   console.log(res)
+    // }
+    // getDrivers()
+    const drivers = Object.keys(allDriverDestinations[userId])
+    setDrivers(drivers)
     // setAllDriverDestinations(driverDestinations)
   }, []);
 
@@ -99,28 +99,13 @@ export default function Admin(props) {
             </li>
           </ul>
           <div class="p-2 flex">
-            {/* <input type="text" placeholder="Driver User Id" class="px-2 py-1 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline mr-2" value={driverId} onChange={handleChangeDriverId}/> */}
             <div class="mb-3 xl:w-96">
-              <select class="form-select appearance-none
-                block
-                w-full
-                px-3
-                py-1.5
-                text-base
-                font-normal
-                text-gray-700
-                bg-white bg-clip-padding bg-no-repeat
-                border border-solid border-gray-300
-                rounded
-                transition
-                ease-in-out
-                m-0
-                focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Default select example"
+              <select class="form-select appearance-none block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Default select example"
                 value={driverId}
                 onChange={handleChangeDriverId}
                 >
                   <option selected>Choose Driver ID</option>
-                  {drivers && drivers?.map((dId) => <option value={dId}>{dId}</option>)}
+                  {drivers?.map((dId) => <option value={dId}>{dId}</option>)}
               </select>
             </div>
             <button className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-sm px-6 py-3 rounded-full shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 w-1/4 ml-auto" type="button" onClick={handleLoadDriver}>
@@ -133,7 +118,7 @@ export default function Admin(props) {
             <div className="px-4 py-5 flex-auto">
               <div className="tab-content tab-space">
                 <div className={openTab === 1 ? "block" : "hidden"} id="link1">
-                  {destinations.length>0 && 
+                  {destinations?.length>0 && 
                   (<Map 
                     currLocation= {currLocation} 
                     deliveryLocation= {deliveryLocation} 

@@ -1,4 +1,4 @@
-import { AdminAPIs } from 'API/admin';
+import { AdminAPIs } from 'API/admin.js';
 import React, { createContext, useState, useEffect } from 'react'
 export const GlobalContext = createContext()
 
@@ -7,7 +7,7 @@ const GlobalContextProvider = (props) => {
     const [dayStarted,setDayStarted] = useState({});
     
     useEffect(() => {
-        const adminDayStarted = AdminAPIs.getAdminDayStarsted();
+        const adminDayStarted = AdminAPIs?.getAdminDayStarted();
         setDayStarted(adminDayStarted);
     }, []);
 

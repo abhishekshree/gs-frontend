@@ -9,7 +9,6 @@ import "../../App.css"
 function Map({ currLocation, deliveryLocation, destinations, zoom_level, travel_mode,setOpen,setMarkerSelected }) {
   const mapElement = useRef();
   const [map, setMap] = useState(null);
-  const [waypoints] = useState(destinations);
   
   function handleMarkerClick(e){
     setOpen("true");
@@ -56,7 +55,7 @@ function Map({ currLocation, deliveryLocation, destinations, zoom_level, travel_
       .then((routeData) => {
         const features = routeData.toGeoJson().features;
         features.forEach((feature, index) => {
-          map.addLayer({
+          const routeLayer = map.addLayer({
             id: "route" + i + index,
             type: "line",
             source: {
@@ -70,6 +69,11 @@ function Map({ currLocation, deliveryLocation, destinations, zoom_level, travel_
               "line-dasharray": [1, 0, 1, 0],
             }
           });
+          console.log(routeLayer);
+          routeLayer.on('click', (e) => {
+            routeLayer.setPaintProperty('line-color', 'blue');
+            console.log('Layer clicked at:', e);
+        });
         });
       });
   };
@@ -85,18 +89,20 @@ function Map({ currLocation, deliveryLocation, destinations, zoom_level, travel_
     map.addControl(new tt.NavigationControl());
     setMap(map);
     return () => map.remove();
-  }, []);
+  }, [destinations]);
 
   useEffect(() => {
+    console.log("-->",destinations)
     if (map) {
+      console.log("hi")
       map.on("load", () => {
-        waypoints.forEach((location) => {
+        destinations.forEach((location) => {
           create_delivery_marker(location);
         });
         create_driver_marker(currLocation);
-        const locations = waypoints.map((location) => [location.longitude, location.latitude])
-
-        for (let i = 0; i < locations.length; i += 150) {
+        const locations = destinations.map((location) => [location.longitude, location.latitude])
+        locations.unshift([currLocation.longitude, currLocation.latitude])
+        for (let i = 0; i < locations.length; i += 150){
           if (i + 150 > locations.length) {
             create_route(locations.slice(i), i)
           }
@@ -107,7 +113,7 @@ function Map({ currLocation, deliveryLocation, destinations, zoom_level, travel_
     else {
       console.log("error loading map"); //Add better error handling function
     }
-  },[map,waypoints]);
+  },[map]);
 
   return (
     <div className="map_wrapper">

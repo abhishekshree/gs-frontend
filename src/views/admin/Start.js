@@ -1,16 +1,34 @@
 import React from "react";
-import { useState,useContext } from 'react';
+import { useState,useContext, useEffect } from 'react';
 import Loading from "components/Loading/loading.js";
 import { GlobalContext } from "context/gobalContext.js";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { AdminAPIs } from "API/admin.js"
 import axios from "axios";
 import startRes from "assets/example_response.json";
+import { errorNotification } from "components/alerts/Alerts.js";
+
+
+function filterAbsurdDestinations(destinations){
+    const avgLat = destinations.reduce((total, next) => total + next.latitude, 0)/destinations.length;
+    const avgLng = destinations.reduce((total, next) => total + next.longitude, 0)/destinations.length;
+    const filteredDestinations = destinations.filter((dest) => {
+        const dist = Math.sqrt((dest.latitude - avgLat)**2 + (dest.longitude - avgLng)**2);
+        if (dist >= 4.883620841){
+            errorNotification(`The Destination (${dest.latitude},${dest.longitude}) was too far away so routing to it was not possible`)
+        }
+        return dist < 4.883620841;
+    })
+
+    return filteredDestinations;
+}
+
 
 export default function Start(props) {
     // var axios = require('axios');
     var FormData = require('form-data');
-    const {role,userId} = props;
+    const { id } = useParams();
+    const userId = id;
     const {dayStarted,setDayStarted} = useContext(GlobalContext);
     const {allDriverDestinations,setAllDriverDestinations} = useContext(GlobalContext);
     const [loading,setLoading] = useState(false);
@@ -56,9 +74,10 @@ export default function Start(props) {
         const thisAdminDriverDest = {}
         for (let i=0; i<startRes.length; i++) {
             const driverId = userId.toString() + "_" + (i+1).toString();
-            thisAdminDriverDest[driverId] = startRes[i];
+            thisAdminDriverDest[driverId] = filterAbsurdDestinations(startRes[i]);
         }
         tempAllDriverDestinations[userId] = thisAdminDriverDest;
+
         setAllDriverDestinations(tempAllDriverDestinations);
         console.log(tempAllDriverDestinations);
 
