@@ -28,12 +28,13 @@ ReactDOM.render(
         <Route path="/landing" exact component={Landing} />
         <Route path="/profile" exact component={Profile} />
         <Route path="/" exact component={Login} testProp="testProp"/>
+        <Route path="/driver/:id" component={Driver}/>
         {
           [...Array(1000).keys()].map((userId) => <Route exact path={"/admin/"+userId.toString()+"/start"} render={() => <Start role="admin" userId={userId}/>}/>)
         }
-        {
+        {/* {
           [...Array(1000).keys()].map((userId) => <Route exact path={"/driver/"+userId.toString()} render={() => <Driver role="driver" userId={userId}/>}/>)
-        }
+        } */}
         {
           [...Array(1000).keys()].map((userId) => <Route exact path={"/admin/"+userId.toString()} render={() => <AdminRouter role="admin" userId={userId}/>}/>)
         }

@@ -29,8 +29,8 @@ export default function Admin(props) {
   const handleLoadDriver = () => {
     if(!driverId)
       return
-    
-    setDestinations(allDriverDestinations[driverId]?.map((dest,i) => {
+
+    setDestinations(driverDestinations[driverId]?.map((dest,i) => { //need to change this to get from backend
       return({
         ...dest,
         markerId: i+1
@@ -39,10 +39,13 @@ export default function Admin(props) {
   }
 
   useEffect(() => {
-    const res = AdminAPIs.getAdminDrivers(userId)
-    setDrivers(res)
+    async function getDrivers(){
+      const res = await AdminAPIs.getAdminDrivers(userId)
+      setDrivers(res)
+    }
+    getDrivers()
     // console.log(drivers)
-    setAllDriverDestinations(driverDestinations)
+    // setAllDriverDestinations(driverDestinations)
   }, []);
 
   return (

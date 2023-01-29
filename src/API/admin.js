@@ -1,23 +1,38 @@
 import { BASE_URL, SERVER_ERROR , responseBody } from "API/constants.js"
 import axios from "axios";
 import { errorNotification } from "components/alerts/Alerts.js";
-
+import { showNotification } from "@mantine/notifications";
+import CloseIcon from "@mui/icons-material/Close";
 
 const instance = axios.create({
     baseURL: BASE_URL,
-    timeout: 15000,
-    timeoutErrorMessage: SERVER_ERROR,
 });
 
 export const AdminAPIs = {
     createAdmin: () => 
         instance
-            .post(`http://${BASE_URL}/post/admin/new`)
+            .post(`${BASE_URL}/post/admin/new`)
             .then(responseBody)
             .catch((err) => {
                 errorNotification("Failed to Create Admin",err.response?.data?.error)
                 console.log("error ->",err)
                 return null
+            }),
+    getAdmins: () =>
+        instance
+            .get(`${BASE_URL}/get/admins`)
+            .then(responseBody)
+            .catch((err) => {
+                errorNotification("Failed to fetch admins",err.response?.data?.error)
+                console.log(err)
+            }),
+    getAdminDayStarted: () =>
+        instance
+            .get(`${BASE_URL}/get/admin/dayStarted`)
+            .then(responseBody)
+            .catch((err) => {
+                errorNotification("Failed to fetch info on variable adminDayStarted",err.response?.data?.error)
+                console.log(err)
             }),
     getAdminDrivers: (adminId) =>
         instance
@@ -27,22 +42,41 @@ export const AdminAPIs = {
                 errorNotification("Failed to fetch driver details",err.response?.data?.error)
                 console.log(err)
             }),
-    getAdminDriverOutput: (adminId) =>
+    getAdminOutput: (adminId) =>
         instance
-            .get(`${BASE_URL}/get/admin/output?admin_id=2`)
+            .get(`${BASE_URL}/get/admin/output?admin_id=${adminId}`)
             .then(responseBody)
             .catch((err) => {
-                errorNotification("Failed to fetch driver routes",err.response?.data?.error)
+                errorNotification("Failed to fetch admin output",err.response?.data?.error)
                 console.log(err);
             }),
     postAdminInput: (data) =>
         instance
-            .post(`${BASE_URL}/post/admin/dynamicpoint`, data)
+            .post(`${BASE_URL}/post/admin/input`, data)
             .then(responseBody)
             .catch((err) => {
-                errorNotification("Error in posting data",err.response?.data?.error)
+                // errorNotification("Error in posting input",err?.message)
+                const title = "Error in posting input";
+                const message = err?.message;
+                showNotification({
+                    title,
+                    message,
+                    color: "red",
+                    icon: <CloseIcon />,
+                })
                 console.log(err)
                 return null
+            }),
+    // postAdminStart: () => {
+
+    // }
+    getStartMap: () =>
+        instance
+            .get(`${BASE_URL}/get/admin/start`)
+            .then(responseBody)
+            .catch((err) => {
+                errorNotification("Failed to fetch driver routes",err.response?.data?.error)
+                console.log(err);
             }),
     // postAdminDynamicPoints: () => {
 

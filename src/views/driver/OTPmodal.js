@@ -1,7 +1,16 @@
+import { AdminAPIs } from "API/admin.js";
+import { successNotification } from "components/alerts/Alerts";
 import React from "react";
 import { useState } from 'react';
 
-export default function OTPModal({showOTPModal,setShowOTPModal,destinations,setDestinations,setDeliveryLocation,completedDest,setCompletedDest}){
+
+const getDriverIndex = (driverId) => {
+    let i=0;
+    while(driverId[i]!="_") i++;
+    return parseInt(driverId.slice(i+1));
+}
+
+export default function OTPModal({showOTPModal,setShowOTPModal,destinations,setDestinations,deliveryLocation,setDeliveryLocation,completedDest,setCompletedDest,userId,adminId,allDriverDestinations}){
     const [OTP,setOTP] = useState("");
 
     const handleChangeOTP = (e) => {
@@ -12,17 +21,27 @@ export default function OTPModal({showOTPModal,setShowOTPModal,destinations,setD
         console.log("new OTP generated")
     }
 
-    const handleSubmitOTP = () => {
+    const handleSubmitOTP = async () => {
         //post request to submit OTP
         setOTP("")
         const response = { body: {valid: "true"}}; // post req response
         if(response.body.valid){
             console.log("delivery completed")
+            successNotification("Delivery Completed")
+            setCompletedDest([...completedDest,deliveryLocation])
+            // const adminDriverDests = await AdminAPIs.getAdminOutput(adminId)
+            // const driverIndex = getDriverIndex(userId);
+            // setDestinations(adminDriverDests[driverIndex-1]?.map((dest,i) => {
+            //     return({
+            //         ...dest,
+            //         locationId: i+1
+            //     })
+            // }))
+            // setDeliveryLocation({...allDriverDestinations[adminId][userId][0],locationId:1});
             if(destinations.length>1)
                 setDeliveryLocation(destinations[1])
             else
-            setDeliveryLocation({})
-            setCompletedDest([...completedDest,destinations[0]])
+                setDeliveryLocation({})
             setDestinations(destinations.slice(1,))
         }
         else{

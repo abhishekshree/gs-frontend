@@ -13,7 +13,12 @@ export default function AdminRouter(props){
         <BrowserRouter>
             <Switch>
                 <Route>
-                    {dayStarted ? <Admin role={role} userId={userId}/> : <Redirect to={"/admin/"+userId.toString()+"/start"} />}
+                    {
+                        dayStarted && (
+                            dayStarted[Number(userId)] ? 
+                            <Admin role={role} userId={userId}/> : 
+                            <Redirect to={"/admin/"+userId.toString()+"/start"} />
+                    )}
                 </Route>
             </Switch>
         </BrowserRouter>

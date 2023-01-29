@@ -5,11 +5,28 @@ import DestinationList from "./DestinationsList";
 import OTPModal from "./OTPmodal";
 import { driverDestinations } from "constants.js";
 import { GlobalContext } from "context/gobalContext.js";
+import { useParams } from "react-router-dom";
+
+const getAdminFromDriverId = (driverId) => {
+  if(driverId.length>0){
+    let adminId = "";
+    for(let i=0;i<driverId.length;i++){
+      if(driverId[i]==="_"){
+        break;
+      }
+      adminId += driverId[i];
+    }
+    return Number(adminId);
+  }
+}
 
 export default function Driver(props) {
   const {allDriverDestinations} = useContext(GlobalContext);
   const [openTab, setOpenTab] = React.useState(1);
-  const {userId} = props;
+  const { id } = useParams();
+  const userId = id;
+  const adminId = getAdminFromDriverId(userId);
+  // const {userId} = props;
   const [currLocation,setCurrLocatoin] = useState({lat: 12.9140182, lng: 77.5747463});
   const [deliveryLocation,setDeliveryLocation] = useState({lat: 12.9414398, lng: 77.5454111, locationId:1});
   const [showOTPModal, setShowOTPModal] = React.useState(false);
@@ -21,7 +38,15 @@ export default function Driver(props) {
   }
 
   useEffect(() => {
-    // fetch destination list
+    // if(allDriverDestinations!==null && adminId in allDriverDestinations && userId in allDriverDestinations[adminId]){
+    //   setDestinations(allDriverDestinations[adminId][userId]?.map((dest,i) => {
+    //     return({
+    //       ...dest,
+    //       locationId: i+1
+    //     })
+    //   }))
+    //  setDeliveryLocation({...allDriverDestinations[adminId][userId][0],locationId:1});
+    // }
     if(driverDestinations !== null){ // allDriverDestinations !== null
       setDestinations(driverDestinations[userId]?.map((dest,i) => {
         return({
@@ -32,6 +57,7 @@ export default function Driver(props) {
       setDeliveryLocation({...driverDestinations[userId][0],locationId:1});
     }
   },[])
+
   return (
       <div className="flex flex-wrap">
         <div className="w-full">
@@ -85,10 +111,14 @@ export default function Driver(props) {
             showOTPModal={showOTPModal} 
             setShowOTPModal={setShowOTPModal} 
             destinations={destinations} 
-            setDestinations={setDestinations} 
+            setDestinations={setDestinations}
+            deliveryLocation={deliveryLocation} 
             setDeliveryLocation={setDeliveryLocation}
             completedDest={completedDest}
             setCompletedDest={setCompletedDest}
+            userId = {userId}
+            adminId = {adminId}
+            allDriverDestinations = {allDriverDestinations}
           />
           <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded">
             <div className="px-4 py-5 flex-auto">

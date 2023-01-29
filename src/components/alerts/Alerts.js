@@ -12,6 +12,7 @@ export const errorNotification = (title,imessage) => {
     message = SERVER_ERROR;
   } else {
     message = imessage;
+    console.log(message)
   }
 
   showNotification({

@@ -11,6 +11,7 @@ export default function Start(props) {
     var FormData = require('form-data');
     const {role,userId} = props;
     const {dayStarted,setDayStarted} = useContext(GlobalContext);
+    const {allDriverDestinations,setAllDriverDestinations} = useContext(GlobalContext);
     const [loading,setLoading] = useState(false);
     const [file, setFile] = useState();
     const [nDrivers, setnDrivers] = useState(0);
@@ -37,34 +38,31 @@ export default function Start(props) {
         destinationsData.append('file',file,"banglore_pickups.xlsx");
         destinationsData.append('no_of_drivers',nDrivers)
         destinationsData.append('admin_id',userId)
-        // var config = {
-        //     method: 'post',
-        //     url: 'http://localhost:5000/post/admin/input',
-        //     data : destinationsData
-        // };
-        // axios(config)
-        // .then((res) => {
-        //     console.log(res);
-        // })
-        // .catch((err) => {
-        //     console.log(err);
-        // })
-        // axios.post('http://localhost:5050/post/admin/input', destinationsData, {
-        //     headers: destinationsData.getHeaders ? destinationsData.getHeaders() : { 'Content-Type': 'multipart/form-data' }
-        // })
-        // .then((res) => {
-        //     console.log(res);
-        // })
-        // .catch((err) => {
-        //     console.log(err);
-        // })
-        const res = await AdminAPIs.postAdminInput(destinationsData)
-        if(!res){
+        const inputRes = await AdminAPIs.postAdminInput(destinationsData)
+        if(!inputRes){
             setLoading(false);
             return
         }
         setSuccInputMsg("block");
-        setDayStarted(true);
+        const startRes = await AdminAPIs.postAdminStart(userId)
+        if(!startRes){
+            setSuccInputMsg("hidden");
+            setLoading(false);
+            return
+        }
+        const tempAllDriverDestinations = allDriverDestinations;
+        const thisAdminDriverDest = {}
+        for (let i=0; i<inputRes.length; i++) {
+            const driverId = userId.toString() + "_" + (i+1).toString();
+            thisAdminDriverDest[driverId] = inputRes[i];
+        }
+        tempAllDriverDestinations[userId] = thisAdminDriverDest;
+        console.log(tempAllDriverDestinations);
+        setAllDriverDestinations(tempAllDriverDestinations);
+
+        const temp = dayStarted;
+        temp[userId] = true;
+        setDayStarted(temp);
         const redirectUrl = "/admin/" + userId.toString() //to be removed
         history.replace(redirectUrl)
     };
@@ -78,22 +76,24 @@ export default function Start(props) {
                         <form>
                             <div className="flex flex-wrap">
                                 <div class="flex justify-center">
-                                    <div class="mb-3 w-96">
-                                        <label for="formFile" class="form-label inline-block mb-2 text-gray-700">drop destinations file</label>
+                                    <div class="mb-3 w-full mt-3">
+                                        <label for="formFile" class="block uppercase text-blueGray-600 text-xs font-bold mb-2">Drop Destinations File</label>
                                         <input class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" type="file" id="formFile"
                                             onChange={handleFileChange}
                                         />
                                     </div>
-                                    <label
-                                        className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                                        htmlFor="grid-password"
-                                    >
-                                        No of Drives
-                                    </label>
-                                    <input
-                                        className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                                        value = {nDrivers}
-                                        onChange = {handleChangeNDrivers}
+                                </div>
+                                <div class="mb-3">
+                                        <label
+                                            className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                                            htmlFor="grid-password"
+                                        >
+                                            No of Drives
+                                        </label>
+                                        <input
+                                            className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                                            value = {nDrivers}
+                                            onChange = {handleChangeNDrivers}
                                     />
                                 </div>
                                 <button className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-sm px-6 py-3 rounded-full shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 w-1/4 ml-auto" type="button" onClick={handleUploadClick}>
