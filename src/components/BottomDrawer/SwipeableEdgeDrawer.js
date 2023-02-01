@@ -6,6 +6,8 @@ import { grey } from '@mui/material/colors';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
+import CardDestination from 'components/Cards/CardDestination.js';
+import CardDrawer from 'components/Cards/CardDrawer.js';
 
 const drawerBleeding = 56;
 
@@ -29,7 +31,7 @@ const Puller = styled(Box)(({ theme }) => ({
   left: 'calc(50% - 15px)',
 }));
 
-export default function SwipeableEdgeDrawer({open,setOpen,markerSelected,setMarkerSelected}) {
+export default function SwipeableEdgeDrawer({open,setOpen,markerSelected, selectedDestInfo}) {
   // const [open, setOpen] = React.useState(false);
 
   const toggleDrawer = (newOpen) => () => {
@@ -70,7 +72,7 @@ export default function SwipeableEdgeDrawer({open,setOpen,markerSelected,setMark
           }}
         >
           <Puller />
-          <Typography sx={{ p: 2, color: 'text.secondary' }}> Info On next Destination</Typography>
+          <Typography sx={{ p: 2, color: 'text.secondary' }}> Info on selected destination </Typography>
         </StyledBox>
         <StyledBox
           sx={{
@@ -81,8 +83,8 @@ export default function SwipeableEdgeDrawer({open,setOpen,markerSelected,setMark
           }}
         >
           {/* <Skeleton variant="rectangular" height="100%" /> */}
-          <Box height="100%" sx={{backgroundColor: '#fff8e5'}}>
-            <Typography>Marker selected : {markerSelected}</Typography>
+          <Box height="100%">
+            <CardDrawer props={selectedDestInfo}/>
           </Box>
         </StyledBox>
       </SwipeableDrawer>

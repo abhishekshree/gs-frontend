@@ -6,6 +6,7 @@ import OTPModal from "./OTPmodal";
 import { driverDestinations } from "constants.js";
 import { GlobalContext } from "context/gobalContext.js";
 import { useParams } from "react-router-dom";
+import { DriverAPIs } from "API/driver.js";
 
 const getAdminFromDriverId = (driverId) => {
   if(driverId.length>0){
@@ -33,20 +34,37 @@ export default function Driver(props) {
   const [destinations,setDestinations] = useState([]);
   const [completedDest,setCompletedDest] = useState([]);
 
-  const handleDelivery = () => {
+  const handleDelivery = async () => {
+    await DriverAPIs.generateOTP()
     setShowOTPModal("true");
   }
 
+  const getDriverDestinations = async (userId) => {
+    const res = await DriverAPIs.getDriverPath(userId);
+    if(!res){
+      return;
+    }
+    let completed=[],notCompleted=[];
+    for(let i=0;i<res.length;i++){
+      if(res[i].delivered === true){
+        completed.push(res[i]);
+      }
+      else{
+        notCompleted.push(res[i]);
+      }
+    }
+    setDestinations(notCompleted?.map((dest,i) => {
+      return({
+        ...dest,
+        locationId: i+1
+      })
+    }))
+    setDeliveryLocation({...res[0],locationId:1});
+    setCompletedDest(completed);
+  }
+
   useEffect(() => {
-    // if(allDriverDestinations!==null && adminId in allDriverDestinations && userId in allDriverDestinations[adminId]){
-    //   setDestinations(allDriverDestinations[adminId][userId]?.map((dest,i) => {
-    //     return({
-    //       ...dest,
-    //       locationId: i+1
-    //     })
-    //   }))
-    //  setDeliveryLocation({...allDriverDestinations[adminId][userId][0],locationId:1});
-    // }
+    //getDriverDestinations();
     if(driverDestinations !== null){ // allDriverDestinations !== null
       setDestinations(driverDestinations[userId]?.map((dest,i) => {
         return({
@@ -134,7 +152,7 @@ export default function Driver(props) {
                   />
                 </div>
                 <div className={openTab === 2 ? "block" : "hidden"} id="link2">
-                  <DestinationList />
+                  <DestinationList completedDest={completedDest} deliveryLocations={destinations}/>
                 </div>
               </div>
             </div>

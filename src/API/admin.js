@@ -50,6 +50,14 @@ export const AdminAPIs = {
                 errorNotification("Failed to fetch admin output",err.response?.data?.error)
                 console.log(err);
             }),
+    getStartMap: () =>
+    instance
+        .get(`${BASE_URL}/get/admin/start`)
+        .then(responseBody)
+        .catch((err) => {
+            errorNotification("Failed to fetch driver routes",err.response?.data?.error)
+            console.log(err);
+        }),
     postAdminInput: (data) =>
         instance
             .post(`${BASE_URL}/post/admin/input`, data)
@@ -68,12 +76,10 @@ export const AdminAPIs = {
                 return null
             }),
     postAdminStart: (admin_id) => {
-        console.log("abkfgfv")
         instance
             .post(`${BASE_URL}/post/admin/start`,{admin_id: admin_id, hub_node: 144})
             .then((res) => {
                 console.log(res.data)
-                
                 return res?.data
             })
             .catch((err) => {
@@ -82,15 +88,40 @@ export const AdminAPIs = {
                 return null
             })
     },
-    getStartMap: () =>
+    putRouteChange: (driverId,data) =>
         instance
-            .get(`${BASE_URL}/get/admin/start`)
+            .put(`${BASE_URL}/post/admin/routeChange?driver_id=${driverId}`, data)
             .then(responseBody)
             .catch((err) => {
-                errorNotification("Failed to fetch driver routes",err.response?.data?.error)
+                errorNotification("Failed to change the route",err.response?.data?.error)
                 console.log(err);
+                return null
             }),
-    // postAdminDynamicPoints: () => {
+    // putDeliveryComplete: (driverId,data) => {
 
     // }
+    postAdminDynamicPoints: (driverId,data) => {
+        instance
+            .post(`${BASE_URL}/post/admin/dynamicPoints?driver_id=${driverId}`, data)
+            .then((res) => {
+                return res?.data
+            })
+            .catch((err) => {
+                errorNotification("Failed to add new destination",err.response?.data?.error)
+                console.log(err);
+                return null
+            })
+    },
+    deleteDestination: (driverId,destinationId) => {
+        instance
+            .delete(`${BASE_URL}/delete/admin/dynamicPoints?driver_id=${driverId}&destination_id=${destinationId}`)
+            .then((res) => {
+                return res?.data
+            })
+            .catch((err) => {
+                errorNotification("Failed to delete destination",err.response?.data?.error)
+                console.log(err);
+                return null
+            })
+    }
 }

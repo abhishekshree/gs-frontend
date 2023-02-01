@@ -76,11 +76,9 @@ function Map({ currLocation, deliveryLocation, destinations, zoom_level, travel_
     const handleDeleteRoute = (routeId) => {
       map?.removeLayer(["route" + routeId]);
       document.getElementById(routeId?.toString())?.remove();
-      console.log(routeId)
     }
     useEffect(() => {
       if(completedDest.length>0)
-        console.log("completed Destinations ->",completedDest[completedDest.length-1]?.locationId)
         handleDeleteRoute(completedDest[completedDest.length-1]?.locationId)
     },[completedDest])
 

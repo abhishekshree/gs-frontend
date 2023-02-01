@@ -19,7 +19,6 @@ import Login from "views/auth/Login";
 import Start from "views/admin/Start.js"
 import GlobalContextProvider from "context/gobalContext.js";
 
-
 ReactDOM.render(
   <GlobalContextProvider>
     <BrowserRouter>
@@ -31,15 +30,6 @@ ReactDOM.render(
         <Route path="/driver/:id" component={Driver}/>
         <Route exact path="/admin/:id/start" component={Start}/>
         <Route exact path="/admin/:id" component={AdminRouter}/>
-        {/* {
-          [...Array(1000).keys()].map((userId) => <Route exact path={"/admin/"+userId.toString()+"/start"} render={() => <Start role="admin" userId={userId}/>}/>)
-        } */}
-        {/* {
-          [...Array(1000).keys()].map((userId) => <Route exact path={"/driver/"+userId.toString()} render={() => <Driver role="driver" userId={userId}/>}/>)
-        } */}
-        {/* {
-          [...Array(1000).keys()].map((userId) => <Route exact path={"/admin/"+userId.toString()} render={() => <AdminRouter role="admin" userId={userId}/>}/>)
-        } */}
       </Switch>
     </BrowserRouter>
   </GlobalContextProvider>,
