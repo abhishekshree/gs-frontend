@@ -7,6 +7,8 @@ import { driverDestinations } from "constants.js";
 import { GlobalContext } from "context/gobalContext.js";
 import { useParams } from "react-router-dom";
 import { DriverAPIs } from "API/driver.js";
+import MapIcon from '@mui/icons-material/Map';
+import FeaturedPlayListIcon from '@mui/icons-material/FeaturedPlayList';
 
 const getAdminFromDriverId = (driverId) => {
   if(driverId.length>0){
@@ -99,7 +101,7 @@ export default function Driver(props) {
                 href="#link1"
                 role="tablist"
               >
-                <i className="fas fa-space-shuttle text-base mr-1"></i> Map
+                <MapIcon /> Map
               </a>
             </li>
             <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
@@ -118,7 +120,7 @@ export default function Driver(props) {
                 href="#link2" 
                 role="tablist"
               >
-                <i className="fas fa-cog text-base mr-1"></i>  Destinations
+                <FeaturedPlayListIcon/>  Destinations
               </a>
             </li>
           </ul>

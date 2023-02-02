@@ -90,7 +90,6 @@ const DraggableList = ({items,setItems,destinations,setDestinations,allDriverDes
                 </div>
                 <List title="List of Destinations" onDragEnd={onDragEnd} name="available">
                     {items?.map((item, index) => {
-                        console.log("hello")
                         return(
                         <>
                             <Draggable key={item.id} draggableId={item.id + ""} index={index} isDragDisabled={buttonMode === "Edit"? true : false}>

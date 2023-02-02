@@ -21,7 +21,7 @@ export default function DynamicPoint({showModal, setShowModal}) {
         <>
         {showModal ? (
             <>
-                <div className="opacity-25 fixed inset-0 z-40">
+                <div className="w-full opacity-25 fixed inset-0 z-40">
                     <div
                         className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-100 border-0"
                     >

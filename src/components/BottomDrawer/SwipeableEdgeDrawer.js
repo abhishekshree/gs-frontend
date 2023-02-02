@@ -6,7 +6,6 @@ import { grey } from '@mui/material/colors';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
-import CardDestination from 'components/Cards/CardDestination.js';
 import CardDrawer from 'components/Cards/CardDrawer.js';
 
 const drawerBleeding = 56;
@@ -44,7 +43,12 @@ export default function SwipeableEdgeDrawer({open,setOpen,markerSelected, select
         styles={{
           '.MuiDrawer-root > .MuiPaper-root': {
             height: `calc(50% - ${drawerBleeding}px)`,
+            margin: 'auto',
+            width: '40%',
             overflow: 'visible',
+            '@media (max-width: 576px)': {
+              width: '100%',
+            }
           },
         }}
       />
@@ -82,7 +86,6 @@ export default function SwipeableEdgeDrawer({open,setOpen,markerSelected, select
             overflow: 'auto',
           }}
         >
-          {/* <Skeleton variant="rectangular" height="100%" /> */}
           <Box height="100%">
             <CardDrawer props={selectedDestInfo}/>
           </Box>
