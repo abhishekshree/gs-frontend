@@ -78,9 +78,9 @@ export const AdminAPIs = {
                 console.log(err)
                 return null
             }),
-    postAdminStart: (admin_id) => {
+    postAdminStart: (adminId,hubNode) => {
         instance
-            .post(`${BASE_URL}/post/admin/start`,{admin_id: admin_id, hub_node: 144})
+            .post(`${BASE_URL}/post/admin/start`,{admin_id: adminId, hub_node: hubNode})
             .then((res) => {
                 console.log(res.data)
                 return res?.data

@@ -35,6 +35,7 @@ export default function Start(props) {
     const [loading, setLoading] = useState(false);
     const [file, setFile] = useState();
     const [nDrivers, setnDrivers] = useState(0);
+    const [hubNode,setHubNode] =  useState(0);
     const [succInputMsg, setSuccInputMsg] = useState("hidden")
     const history = useHistory();
 
@@ -47,6 +48,10 @@ export default function Start(props) {
             setFile(e.target.files[0]);
         }
     };
+
+    const handleChangeHubNode = (e) => {
+        setHubNode(e.target.value);
+    }
 
     const handleUploadClick = async () => {
         if (!file) {
@@ -66,7 +71,7 @@ export default function Start(props) {
         }
         setSuccInputMsg("block");
         // --- API call to get output map for this admin---
-        const startRes = await  AdminAPIs.postAdminStart(userId)
+        const startRes = await  AdminAPIs.postAdminStart(userId,hubNode)
         // console.log(startRes)
         if(!startRes){
             setSuccInputMsg("hidden");
@@ -137,6 +142,8 @@ export default function Start(props) {
                                                 rows="4"
                                                 cols="80"
                                                 className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
+                                                value={hubNode}
+                                                onChange={handleChangeHubNode}
                                             />
                                         </div>
                                         <div className="text-center mt-6">
