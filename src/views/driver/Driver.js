@@ -66,16 +66,18 @@ export default function Driver(props) {
   }
 
   useEffect(() => {
-    //getDriverDestinations();
-    if(driverDestinations !== null){ // allDriverDestinations !== null
-      setDestinations(driverDestinations[userId]?.map((dest,i) => {
-        return({
-          ...dest,
-          locationId: i+1
-        })
-      }))
-      setDeliveryLocation({...driverDestinations[userId][0],locationId:1});
-    }
+    getDriverDestinations();
+    //--- Hardocding ----
+    // if(driverDestinations !== null){ // allDriverDestinations !== null
+    //   setDestinations(driverDestinations[userId]?.map((dest,i) => {
+    //     return({
+    //       ...dest,
+    //       locationId: i+1
+    //     })
+    //   }))
+    //   setDeliveryLocation({...driverDestinations[userId][0],locationId:1});
+    // }
+    // ------------------
   },[])
 
   return (

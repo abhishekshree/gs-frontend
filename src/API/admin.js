@@ -61,7 +61,10 @@ export const AdminAPIs = {
     postAdminInput: (data) =>
         instance
             .post(`${BASE_URL}/post/admin/input`, data)
-            .then(responseBody)
+            .then((res) => {
+                console.log(res)
+                return res?.data
+            })
             .catch((err) => {
                 // errorNotification("Error in posting input",err?.message)
                 const title = "Error in posting input";

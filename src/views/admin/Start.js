@@ -5,7 +5,7 @@ import { GlobalContext } from "context/gobalContext.js";
 import { useHistory, useParams } from "react-router-dom";
 import { AdminAPIs } from "API/admin.js"
 import axios from "axios";
-import startRes from "assets/example_response.json";
+// import startRes from "assets/example_response.json"; //harcoded response to be removed
 import { errorNotification } from "components/alerts/Alerts.js";
 
 
@@ -63,13 +63,13 @@ export default function Start(props) {
         //     return
         // }
         // setSuccInputMsg("block");
-        // const startRes = await  AdminAPIs.postAdminStart(userId)
-        // console.log(startRes)
-        // if(!startRes){
-        //     setSuccInputMsg("hidden");
-        //     setLoading(false);
-        //     return
-        // }
+        const startRes = await  AdminAPIs.postAdminStart(userId)
+        console.log(startRes)
+        if(!startRes){
+            setSuccInputMsg("hidden");
+            setLoading(false);
+            return
+        }
         const tempAllDriverDestinations = allDriverDestinations;
         const thisAdminDriverDest = {};
         for (let i = 0; i < startRes.length; i++) {
@@ -79,12 +79,10 @@ export default function Start(props) {
         tempAllDriverDestinations[userId] = thisAdminDriverDest;
 
         setAllDriverDestinations(tempAllDriverDestinations);
-        console.log(tempAllDriverDestinations);
 
         const temp = dayStarted;
         temp[userId] = true;
         setDayStarted(temp);
-        console.log(temp)
         setLoading(false);
         const redirectUrl = "/admin/" + userId.toString() //to be removed
         history.replace(redirectUrl)
