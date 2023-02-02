@@ -57,14 +57,14 @@ export default function Start(props) {
         destinationsData.append('file', file, "banglore_pickups.xlsx");
         destinationsData.append('no_of_drivers', nDrivers)
         destinationsData.append('admin_id', userId)
-        // const inputRes = await AdminAPIs.postAdminInput(destinationsData)
-        // if(!inputRes){
-        //     setLoading(false);
-        //     return
-        // }
-        // setSuccInputMsg("block");
+        const inputRes = await AdminAPIs.postAdminInput(destinationsData)
+        if(!inputRes){
+            setLoading(false);
+            return
+        }
+        setSuccInputMsg("block");
         const startRes = await  AdminAPIs.postAdminStart(userId)
-        console.log(startRes)
+        // console.log(startRes)
         if(!startRes){
             setSuccInputMsg("hidden");
             setLoading(false);
