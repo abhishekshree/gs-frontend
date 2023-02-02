@@ -5,7 +5,7 @@ import { GlobalContext } from "context/gobalContext.js";
 import { useHistory, useParams } from "react-router-dom";
 import { AdminAPIs } from "API/admin.js"
 import axios from "axios";
-// import startRes from "assets/example_response.json"; //harcoded response to be removed
+// import startRes from "assets/input.json"; //harcoded response to be removed
 import { errorNotification } from "components/alerts/Alerts.js";
 
 
@@ -31,6 +31,7 @@ export default function Start(props) {
     const userId = id;
     const { dayStarted, setDayStarted } = useContext(GlobalContext);
     const { allDriverDestinations, setAllDriverDestinations } = useContext(GlobalContext);
+    const [unroutedPoints,setUnroutedPoints] = useState([]);
     const [loading, setLoading] = useState(false);
     const [file, setFile] = useState();
     const [nDrivers, setnDrivers] = useState(0);
@@ -57,12 +58,14 @@ export default function Start(props) {
         destinationsData.append('file', file, "banglore_pickups.xlsx");
         destinationsData.append('no_of_drivers', nDrivers)
         destinationsData.append('admin_id', userId)
+        // --- API call to submit input file ---
         const inputRes = await AdminAPIs.postAdminInput(destinationsData)
         if(!inputRes){
             setLoading(false);
             return
         }
         setSuccInputMsg("block");
+        // --- API call to get output map for this admin---
         const startRes = await  AdminAPIs.postAdminStart(userId)
         // console.log(startRes)
         if(!startRes){
@@ -70,11 +73,13 @@ export default function Start(props) {
             setLoading(false);
             return
         }
+        // -------------------------------------
+        setUnroutedPoints(startRes.unrouted_points)
         const tempAllDriverDestinations = allDriverDestinations;
         const thisAdminDriverDest = {};
-        for (let i = 0; i < startRes.length; i++) {
+        for (let i = 0; i < startRes.Routes.length; i++) {
             const driverId = userId.toString() + "_" + (i + 1).toString();
-            thisAdminDriverDest[driverId] = filterAbsurdDestinations(startRes[i]);
+            thisAdminDriverDest[driverId] = filterAbsurdDestinations(startRes.Routes[i]);
         }
         tempAllDriverDestinations[userId] = thisAdminDriverDest;
 
