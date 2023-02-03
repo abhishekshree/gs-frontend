@@ -60,26 +60,21 @@ export default function Start(props) {
         destinationsData.append('no_of_drivers', nDrivers)
         destinationsData.append('admin_id', userId)
         // --- API call to submit input file ---
-        // const inputRes = await AdminAPIs.postAdminInput(destinationsData)
-
-        // console.log('input response:' ,inputRes)
-        // if(!inputRes){
-        //     setLoading(false);
-        //     console.log("inputres not received")
-        //     return
-        // }
-        // setSuccInputMsg("block");
+        const inputRes = await AdminAPIs.postAdminInput(destinationsData)
+        if(!inputRes){
+            setLoading(false);
+            console.log("inputres not received")
+            return
+        }
+        setSuccInputMsg("block");
         // --- API call to get output map for this admin---
-        // console.log("starting start")
-        // const startRes = await  AdminAPIs.postAdminStart(userId,hubNode)
-        // console.log("out of start")
-        // console.log(startRes)
-        // if(!startRes){
-        //     console.log("startRes is null")
-        //     setSuccInputMsg("hidden");
-        //     setLoading(false);
-        //     return
-        // }
+        const startRes = await  AdminAPIs.postAdminStart(userId,hubNode)
+        if(!startRes){
+            console.log("startres not received")
+            setSuccInputMsg("hidden");
+            setLoading(false);
+            return
+        }
         // -------------------------------------
         setUnroutedPoints(startRes.unrouted_points)
         // const tempAllDriverDestinations = allDriverDestinations;

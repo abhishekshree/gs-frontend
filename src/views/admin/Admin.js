@@ -35,14 +35,6 @@ export default function Admin(props) {
     if (!driverId)
       return
     history.push(`/driver/${driverId}`)
-    // const temp = allDriverDestinations[userId][driverId]?.map((dest, i) => { //need to change this to get from backend
-    //   return ({
-    //     ...dest,
-    //     id: i + 1
-    //   })
-    // })
-    // setDestinations(temp);
-    // setItems(temp);
   }
 
   const handleDynamicPoint = () => {
@@ -59,15 +51,15 @@ export default function Admin(props) {
       }))
       console.log(temp)
     }
-    // getDrivers()
+    getDrivers()
 
     // --- Hardcoding ---
-    const drivers = Object.keys(startRes["Routes"].map((_,index) => userId?.toString()+"_"+index.toString()))
-    setDrivers(drivers)
-      const temp = drivers.map((driverId) => {
-        return ({ driverId: driverId })
-    })
-    setDriverInfo(temp)
+    // const drivers = Object.keys(startRes["Routes"].map((_,index) => userId?.toString()+"_"+index.toString()))
+    // setDrivers(drivers)
+    //   const temp = drivers.map((driverId) => {
+    //     return ({ driverId: driverId })
+    // })
+    // setDriverInfo(temp)
     // ------------------
 
   }, []);

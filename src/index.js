@@ -18,7 +18,6 @@ import Profile from "views/Profile.js";
 import Login from "views/auth/Login";
 import Start from "views/admin/Start.js"
 import GlobalContextProvider from "context/gobalContext.js";
-import Dashboard from "views/admin/AdminDashboard.js";
 import DriverInfo from "views/admin/DriverInfo.js";
 
 ReactDOM.render(
@@ -28,7 +27,6 @@ ReactDOM.render(
         <Route path="/auth" component={Auth} />
         <Route path="/landing" exact component={Landing} />
         <Route path="/profile" exact component={Profile} />
-        <Route path="/admin/dashboard" exact component={Dashboard} />
         <Route path="/" exact component={Login} testProp="testProp"/>
         <Route path="/driver/:id" component={Driver}/>
         <Route exact path="/admin/:id/start" component={Start}/>

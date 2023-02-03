@@ -6,17 +6,16 @@ import { useEffect } from 'react';
 import { useStore } from "store/store.js";
 
 export default function AdminRouter(props){
-    // const {dayStarted} = useContext(GlobalContext);
     const { dayStarted,setDayStarted } = useStore()
     const { id } = useParams();
     const userId = id;
 
     useEffect(() => {
-        // const getDayStarted = async () => {
-        //     const adminDayStarted = await AdminAPIs?.getAdminDayStarted();
-        //     setDayStarted(adminDayStarted);
-        // }
-        // getDayStarted();
+        const getDayStarted = async () => {
+            const adminDayStarted = await AdminAPIs?.getAdminDayStarted();
+            setDayStarted(adminDayStarted);
+        }
+        getDayStarted();
     }, []);
     
     return(
