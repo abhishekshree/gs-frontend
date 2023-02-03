@@ -1,10 +1,9 @@
-import React from 'react'
+import tt from "@tomtom-international/web-sdk-maps";
 import "@tomtom-international/web-sdk-maps/dist/maps.css";
 import * as ttservices from "@tomtom-international/web-sdk-services";
-import tt from "@tomtom-international/web-sdk-maps";
-import { useEffect, useState, useRef } from "react";
-import { api_key } from "constants.js"
-import "../../App.css"
+import { api_key } from "constants.js";
+import { useEffect, useRef, useState } from "react";
+import "../../App.css";
 
 function Map({ currLocation, destinations, zoom_level, travel_mode,setOpen,setMarkerSelected,setDestInfoSelected }) {
   const mapElement = useRef();

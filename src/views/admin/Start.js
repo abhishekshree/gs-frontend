@@ -1,11 +1,8 @@
-import React from "react";
-import { useState, useContext, useEffect } from 'react';
-import { useStore } from "store/store.js";
+import { AdminAPIs } from "API/admin.js";
 import Loading from "components/Loading/loading.js";
-import { GlobalContext } from "context/gobalContext.js";
+import { useState } from 'react';
 import { useHistory, useParams } from "react-router-dom";
-import { AdminAPIs } from "API/admin.js"
-import axios from "axios";
+import { useStore } from "store/store.js";
 // import startRes from "assets/input.json"; //harcoded response to be removed
 import { errorNotification } from "components/alerts/Alerts.js";
 
@@ -32,7 +29,7 @@ export default function Start(props) {
     // const { dayStarted, setDayStarted } = useContext(GlobalContext);
     const { dayStarted, setDayStarted } = useStore();
     // const { allDriverDestinations, setAllDriverDestinations } = useContext(GlobalContext);
-    const { allDriverDestinations, setAllDriverDestinations, unroutedPoints,setUnroutedPoints } = useStore();
+    const { allDriverDestinations, setAllDriverDestinations, unroutedPoints, setUnroutedPoints } = useStore();
     const [loading, setLoading] = useState(false);
     const [file, setFile] = useState();
     const [nDrivers, setnDrivers] = useState(0);
@@ -86,7 +83,8 @@ export default function Start(props) {
             return
         }
         // -------------------------------------
-        setUnroutedPoints(startRes.unrouted_points)
+        setUnroutedPoints(startRes.Unrouted_points)
+        console.log(unroutedPoints)
         const tempAllDriverDestinations = allDriverDestinations;
         const thisAdminDriverDest = {};
         for (let i = 0; i < startRes.Routes.length; i++) {

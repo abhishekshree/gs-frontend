@@ -1,14 +1,13 @@
-import React from "react";
-import { useState, useEffect, useContext } from 'react';
+import { useEffect, useState } from 'react';
 
+import FeaturedPlayListIcon from '@mui/icons-material/FeaturedPlayList';
+import MapIcon from '@mui/icons-material/Map';
+import { DriverAPIs } from "API/driver.js";
+import SwipeableEdgeDrawer from "components/BottomDrawer/SwipeableEdgeDrawer.js";
+import DraggableList from "components/List/DraggableList.js";
+import { useParams } from "react-router-dom";
 import { useStore } from "store/store.js";
 import Map from "views/admin/Map.js";
-import SwipeableEdgeDrawer from "components/BottomDrawer/SwipeableEdgeDrawer.js";
-import { useParams } from "react-router-dom";
-import DraggableList from "components/List/DraggableList.js";
-import MapIcon from '@mui/icons-material/Map';
-import FeaturedPlayListIcon from '@mui/icons-material/FeaturedPlayList';
-import { DriverAPIs } from "API/driver.js";
 
 export default function DriverInfo() {
   const { allDriverDestinations, setAllDriverDestinations } = useStore();
@@ -44,7 +43,7 @@ export default function DriverInfo() {
   return (
     <>
       <div className="flex flex-wrap h-screen p-2">
-        <div className="w-full h-1/6">
+        <div className="w-full">
           <ul
             className="flex mb-0 list-none flex-wrap pt-3 pb-4 flex-row"
             role="tablist"

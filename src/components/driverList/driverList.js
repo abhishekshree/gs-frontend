@@ -3,7 +3,7 @@ import DriverCard from "./driverCard.js";
 
 export default function DriverList({drivers,handleLoadDriver}) {
     return(
-        <div className="container mx-auto px-4">
+        <div className="mx-auto px-4">
             <div className="flex flex-wrap">
                     {drivers.map((driver) => {
                         return(

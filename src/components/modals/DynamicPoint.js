@@ -28,12 +28,15 @@ export default function DynamicPoint({adminId,showModal, setShowModal}) {
         <>
         {showModal ? (
             <>
-                <div className="w-full opacity-25 fixed inset-0 z-40">
+                {/* <div className="w-full fixed inset-0 z-40"> */}
+                <div
+                className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
+            >
                     <div
-                        className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-100 border-0"
+                        className="relative flex flex-col min-w-0 break-words lg:w-1/2 shadow-lg rounded-lg bg-blueGray-100 border-0"
                     >
                         <form onSubmit={handleSubmit(onSubmit)}>
-                            <div className="rounded-t bg-white mb-0 px-6 py-6">
+                            <div className="rounded-t mb-0 px-6 py-6">
                                 <div className="text-center flex justify-between">
                                     <h6 className="text-blueGray-700 text-xl font-bold">Add New Destination</h6>
                                 </div>

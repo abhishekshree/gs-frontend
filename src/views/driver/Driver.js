@@ -1,15 +1,12 @@
-import React from "react";
-import { useState, useEffect, useContext } from 'react';
+import FeaturedPlayListIcon from '@mui/icons-material/FeaturedPlayList';
+import MapIcon from '@mui/icons-material/Map';
+import { DriverAPIs } from "API/driver.js";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { useStore } from "store/store.js";
 import Map from "views/driver/Map.js";
 import DestinationList from "./DestinationsList";
 import OTPModal from "./OTPmodal";
-import { driverDestinations } from "constants.js";
-import { GlobalContext } from "context/gobalContext.js";
-import { useParams } from "react-router-dom";
-import { DriverAPIs } from "API/driver.js";
-import MapIcon from '@mui/icons-material/Map';
-import FeaturedPlayListIcon from '@mui/icons-material/FeaturedPlayList';
 
 const getAdminFromDriverId = (driverId) => {
   if(driverId.length>0){
