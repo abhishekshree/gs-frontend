@@ -1,5 +1,5 @@
-import FeaturedPlayListIcon from '@mui/icons-material/FeaturedPlayList';
-import MapIcon from '@mui/icons-material/Map';
+import FeaturedPlayListIcon from "@mui/icons-material/FeaturedPlayList";
+import MapIcon from "@mui/icons-material/Map";
 import { DriverAPIs } from "API/driver.js";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -9,17 +9,17 @@ import DestinationList from "./DestinationsList";
 import OTPModal from "./OTPmodal";
 
 const getAdminFromDriverId = (driverId) => {
-  if(driverId.length>0){
+  if (driverId.length > 0) {
     let adminId = "";
-    for(let i=0;i<driverId.length;i++){
-      if(driverId[i]==="_"){
+    for (let i = 0; i < driverId.length; i++) {
+      if (driverId[i] === "_") {
         break;
       }
       adminId += driverId[i];
     }
     return Number(adminId);
   }
-}
+};
 
 export default function Driver(props) {
   // const {allDriverDestinations} = useContext(GlobalContext);
@@ -29,40 +29,49 @@ export default function Driver(props) {
   const userId = id;
   const adminId = getAdminFromDriverId(userId);
   // const {userId} = props;
-  const [currLocation,setCurrLocatoin] = useState({latitude: 12.9140182, longitude: 77.5747463});
-  const [deliveryLocation,setDeliveryLocation] = useState({latitude: 12.9414398, longitude: 77.5454111, locationId:1});
+  const [currLocation, setCurrLocatoin] = useState({
+    latitude: 12.9140182,
+    longitude: 77.5747463,
+  });
+  const [deliveryLocation, setDeliveryLocation] = useState({
+    latitude: 12.9414398,
+    longitude: 77.5454111,
+    locationId: 1,
+  });
   const [showOTPModal, setShowOTPModal] = React.useState(false);
-  const [destinations,setDestinations] = useState([]);
-  const [completedDest,setCompletedDest] = useState([]);
+  const [destinations, setDestinations] = useState([]);
+  const [completedDest, setCompletedDest] = useState([]);
 
   const handleDelivery = async () => {
-    await DriverAPIs.generateOTP()
+    await DriverAPIs.generateOTP();
     setShowOTPModal("true");
-  }
+  };
 
   const getDriverDestinations = async (userId) => {
     const res = await DriverAPIs.getDriverPath(userId);
-    if(!res){
+    if (!res) {
       return;
     }
-    let completed=[],notCompleted=[];
-    for(let i=0;i<res.length;i++){
-      if(res[i].delivered === true){
+    let completed = [],
+      notCompleted = [];
+    for (let i = 0; i < res.length; i++) {
+      if (res[i].delivered === true) {
         completed.push(res[i]);
-      }
-      else{
+      } else {
         notCompleted.push(res[i]);
       }
     }
-    setDestinations(notCompleted?.map((dest,i) => {
-      return({
-        ...dest,
-        locationId: i+1
+    setDestinations(
+      notCompleted?.map((dest, i) => {
+        return {
+          ...dest,
+          locationId: i + 1,
+        };
       })
-    }))
-    setDeliveryLocation({...res[0],locationId:1});
+    );
+    setDeliveryLocation({ ...res[0], locationId: 1 });
     setCompletedDest(completed);
-  }
+  };
 
   useEffect(() => {
     getDriverDestinations();
@@ -77,90 +86,107 @@ export default function Driver(props) {
     //   setDeliveryLocation({...driverDestinations[userId][0],locationId:1});
     // }
     // ------------------
-  },[])
+  }, []);
 
   return (
-      <div className="flex flex-wrap">
-        <div className="w-full">
-          <ul
-            className="flex mb-0 list-none flex-wrap pt-3 pb-4 flex-row"
-            role="tablist"
-          >
-            <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
-              <a
-                className={
-                  "text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal " +
-                  (openTab === 1
-                    ? "text-white bg-lightBlue-600"
-                    : "text-lightBlue-600 bg-white")
-                }
-                onClick={e => {
-                  e.preventDefault();
-                  setOpenTab(1);
-                }}
-                data-toggle="tab"
-                href="#link1"
-                role="tablist"
-              >
-                <MapIcon /> Map
-              </a>
-            </li>
-            <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
-              <a
-                className={
-                  "text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal " +
-                  (openTab === 2
-                    ? "text-white bg-lightBlue-600"
-                    : "text-lightBlue-600 bg-white")
-                }
-                onClick={e => {
-                  e.preventDefault();
-                  setOpenTab(2);
-                }}
-                data-toggle="tab"
-                href="#link2" 
-                role="tablist"
-              >
-                <FeaturedPlayListIcon/>  Destinations
-              </a>
-            </li>
-          </ul>
-          <button className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-sm px-6 py-3 rounded-full shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 w-1/4 ml-auto" type="button" onClick={handleDelivery}>
-            Deliver
-          </button>
-          <OTPModal 
-            showOTPModal={showOTPModal} 
-            setShowOTPModal={setShowOTPModal} 
-            destinations={destinations} 
-            setDestinations={setDestinations}
-            deliveryLocation={deliveryLocation} 
-            setDeliveryLocation={setDeliveryLocation}
-            completedDest={completedDest}
-            setCompletedDest={setCompletedDest}
-            userId = {userId}
-            adminId = {adminId}
-            allDriverDestinations = {allDriverDestinations}
-          />
-          <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded">
-            <div className="px-4 py-5 flex-auto">
-              <div className="tab-content tab-space">
-                <div className={openTab === 1 ? "block" : "hidden"} id="link1">
-                  <Map 
-                    currLocation= {currLocation} 
-                    deliveryLocation= {deliveryLocation} 
-                    destinations={destinations} 
-                    zoom_level={12} 
-                    travel_mode="truck"
-                    completedDest={completedDest} 
-                  />
-                </div>
-                <div className={openTab === 2 ? "block" : "hidden"} id="link2">
-                  <DestinationList completedDest={completedDest} deliveryLocations={destinations}/>
-                </div>
-              </div>
+    <div className="w-screen h-screen flex flex-col">
+      <div>
+        <ul
+          className="flex list-none flex-wrap pt-3 pb-4 flex-row"
+          role="tablist"
+        >
+          <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
+            <a
+              className={
+                "text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal " +
+                (openTab === 1
+                  ? "text-white bg-lightBlue-600"
+                  : "text-lightBlue-600 bg-white")
+              }
+              onClick={(e) => {
+                e.preventDefault();
+                setOpenTab(1);
+              }}
+              data-toggle="tab"
+              href="#link1"
+              role="tablist"
+            >
+              <MapIcon /> Map
+            </a>
+          </li>
+          <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
+            <a
+              className={
+                "text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal " +
+                (openTab === 2
+                  ? "text-white bg-lightBlue-600"
+                  : "text-lightBlue-600 bg-white")
+              }
+              onClick={(e) => {
+                e.preventDefault();
+                setOpenTab(2);
+              }}
+              data-toggle="tab"
+              href="#link2"
+              role="tablist"
+            >
+              <FeaturedPlayListIcon /> Destinations
+            </a>
+          </li>
+        </ul>
+      </div>
+      <OTPModal
+        showOTPModal={showOTPModal}
+        setShowOTPModal={setShowOTPModal}
+        destinations={destinations}
+        setDestinations={setDestinations}
+        deliveryLocation={deliveryLocation}
+        setDeliveryLocation={setDeliveryLocation}
+        completedDest={completedDest}
+        setCompletedDest={setCompletedDest}
+        userId={userId}
+        adminId={adminId}
+        allDriverDestinations={allDriverDestinations}
+      />
+      <div className="flex flex-col min-w-screen break-words bg-white w-full">
+        <div className="">
+          <div className={openTab === 1 ? "block" : "hidden"} id="link1">
+            <div className="w-full h-full">
+              <Map
+                currLocation={currLocation}
+                deliveryLocation={deliveryLocation}
+                destinations={destinations}
+                zoom_level={12}
+                travel_mode="truck"
+                completedDest={completedDest}
+              />
             </div>
+            <div className="flex justify-center w-screen">
+              <button
+                className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-sm px-6 py-3 rounded-full shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150 lg:w-1/4 h-auto mt-1"
+                type="button"
+                onClick={handleDelivery}
+              >
+                Deliver
+              </button>
+
+              <button
+                className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-sm px-6 py-3 rounded-full shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150 lg:w-1/4 h-auto mt-1 ml-2"
+                type="button"
+                onClick={handleDelivery}
+              >
+                Logout
+              </button>
+            </div>
+          </div>
+          <div className={openTab === 2 ? "block" : "hidden"} id="link2">
+            <DestinationList
+              completedDest={completedDest}
+              deliveryLocations={destinations}
+            />
           </div>
         </div>
       </div>
+    </div>
   );
 }

@@ -20,7 +20,7 @@
   }
 
   .map_wrapper {
-    margin-top: 32px;
-    height: 100vh;
+    margin-top: 0px;
+    height: 100%;
     overflow: hidden;
   }

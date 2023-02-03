@@ -107,18 +107,11 @@ function Map({ currLocation, deliveryLocation, destinations, zoom_level, travel_
       }, [map,currLocation,deliveryLocation]);
 
     return (
-      <div className="map_wrapper">
+      <div className="map_wrapper" >
         <div 
           ref={mapElement} 
-          style={{
-            position: 'absolute',
-            top: 0,
-            bottom: 0,
-            left: 0,
-            right: 0,
-            width: '100%',
-            height: '100%'
-          }}
+          className='absolute top-0 left-0 w-full'
+          style={{ height: "calc(100vh - 14vh)" }} 
         />
       </div>
     );

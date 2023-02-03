@@ -1,4 +1,4 @@
-import { BASE_URL, SERVER_ERROR , responseBody } from "API/constants.js"
+import { BASE_URL , responseBody } from "API/constants.js"
 import axios from "axios";
 import { errorNotification } from "components/alerts/Alerts.js";
 import { showNotification } from "@mantine/notifications";
