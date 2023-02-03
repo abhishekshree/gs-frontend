@@ -4,76 +4,42 @@ import { useState, useEffect, useContext } from 'react';
 import { useStore } from "store/store.js";
 import Map from "views/admin/Map.js";
 import SwipeableEdgeDrawer from "components/BottomDrawer/SwipeableEdgeDrawer.js";
-import { GlobalContext } from "context/gobalContext.js";
-import { AdminAPIs } from "API/admin.js";
-import { useHistory,useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import DraggableList from "components/List/DraggableList.js";
-import DynamicPoint from "components/modals/DynamicPoint";
 import MapIcon from '@mui/icons-material/Map';
 import FeaturedPlayListIcon from '@mui/icons-material/FeaturedPlayList';
-import AccountBoxIcon from '@mui/icons-material/AccountBox';
-import DriverList from "components/driverList/driverList.js";
-import UnroutedList from "components/List/UnroutedList.js";
-import { DriverAPIs } from "API/driver";
+import { DriverAPIs } from "API/driver.js";
 
-
-export default function Admin(props) {
-  // const { allDriverDestinations, setAllDriverDestinations } = useContext(GlobalContext);
+export default function DriverInfo() {
   const { allDriverDestinations, setAllDriverDestinations } = useStore();
-  const history = useHistory();
-  const { id } = useParams();
+
+  const { id,dId } = useParams();
   const userId = id;
+  const driverId = dId;
 
-  const {unroutedPoints} = useStore()
-
-  const [drivers, setDrivers] = useState([]) //list of drivers that fall under this admin
-  const [driverInfo,setDriverInfo] = useState([])
   const [openTab, setOpenTab] = useState(1);
-  const [driverId, setDriverId] = useState(null); //current driver id in the input
   const [destinations, setDestinations] = useState([]); //current driver destinations
   const [items, setItems] = useState([]); //list items
   const [currLocation, setCurrLocatoin] = useState({ latitude: 12.9140182, longitude: 77.5747463 });
+
   const [open, setOpen] = useState(false); //swipeable edge drawer open
-  const [openDynamicPoint, setOpenDynamicPoint] = useState(false); //dynamic point drawer open
   const [markerSelected, setMarkerSelected] = useState(0); //marker selected in the map
   const [selectedDestInfo, setSelectedDestInfo] = useState({}); //selected destination info
 
-  const handleLoadDriver = async (driverId) => {
-    if (!driverId)
-      return
-    history.replace(`/admin/${userId}/driver/${driverId}`)
-    // const temp = allDriverDestinations[userId][driverId]?.map((dest, i) => { //need to change this to get from backend
-    //   return ({
-    //     ...dest,
-    //     id: i + 1
-    //   })
-    // })
-    // setDestinations(temp);
-    // setItems(temp);
-  }
-
-  const handleDynamicPoint = () => {
-    setOpenDynamicPoint(true);
-  }
-
   useEffect(() => {
-    async function getDrivers(){
-      const res = await AdminAPIs.getAdminDrivers(userId)
-      const temp = res.map((driver) => driver.driver_id)
-      setDrivers(temp)
-      setDriverInfo(temp.map((driverId) => {
-        return ({ driverId: driverId })
-      }))
-      console.log(temp)
-    }
-    getDrivers()
-    // const drivers = Object.keys(allDriverDestinations[userId])
-    // setDrivers(drivers)
-    //   const temp = drivers.map((driverId) => {
-    //     return ({ driverId: driverId })
-    // })
-    // setDriverInfo(temp)
-  }, []);
+    console.log("did ->",dId)
+    async function getDriverPath(){
+        const res = await DriverAPIs.getDriverPath(dId)
+        setDestinations(res.map((dest,i) => {
+            return({
+                ...dest,
+                id: i+1
+            })
+        }))
+        setItems(res)
+        }
+    getDriverPath()
+  },[dId])
 
   return (
     <>
@@ -96,10 +62,10 @@ export default function Admin(props) {
                   setOpenTab(1);
                 }}
                 data-toggle="tab"
-                href="#link1"
+                href="#link2"
                 role="tablist"
               >
-                <AccountBoxIcon /> Drivers
+                <MapIcon /> Map
               </a>
             </li>
             <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
@@ -115,50 +81,19 @@ export default function Admin(props) {
                   setOpenTab(2);
                 }}
                 data-toggle="tab"
-                href="#link2"
-                role="tablist"
-              >
-                <MapIcon /> Unrouted Points
-              </a>
-            </li>
-            {/* <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
-              <a
-                className={
-                  "text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal " +
-                  (openTab === 3
-                    ? "text-white bg-lightBlue-600"
-                    : "text-lightBlue-600 bg-white")
-                }
-                onClick={e => {
-                  e.preventDefault();
-                  setOpenTab(3);
-                }}
-                data-toggle="tab"
                 href="#link3"
                 role="tablist"
               >
                 <FeaturedPlayListIcon />  Destinations
               </a>
-            </li> */}
+            </li>
           </ul>
-          
-          <div>
-            <div>
-              <button className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-sm px-6 py-3 rounded-full shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 w-1/4 ml-auto" type="button" onClick={handleDynamicPoint}>
-                Add Points
-              </button>
-            </div>
-          </div>
         </div>
-        <DynamicPoint adminId={userId} showModal={openDynamicPoint} setShowModal={setOpenDynamicPoint} />
         <div className="w-full">
           <div className="relative flex flex-col min-w-0 break-words bg-white w-full shadow-lg rounded">
             <div className="px-4 py-5 flex-auto">
               <div className="tab-content tab-space">
                 <div className={openTab === 1 ? "block" : "hidden"} id="link1">
-                    <DriverList drivers={driverInfo} handleLoadDriver={handleLoadDriver} setOpenTab={setOpenTab}/>
-                </div>
-                {/* <div className={openTab === 2 ? "block" : "hidden"} id="link2">
                   {destinations?.length > 0 &&
                     (<Map
                       currLocation={currLocation}
@@ -170,8 +105,8 @@ export default function Admin(props) {
                       setSelectedDestInfo={setSelectedDestInfo}
                     />)
                   }
-                </div> */}
-                {/* <div className={openTab === 3 ? "block" : "hidden"} id="link3">
+                </div>
+                <div className={openTab === 2 ? "block" : "hidden"} id="link2">
                   {
                     items?.length > 0 &&
                     <DraggableList
@@ -185,15 +120,13 @@ export default function Admin(props) {
                       driverId={driverId}
                     />
                   }
-                </div> */}
-                <div className={openTab === 2 ? "block" : "hidden"} id="link2">
-                  <UnroutedList deliveryLocations={unroutedPoints} />
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+      <SwipeableEdgeDrawer open={open} setOpen={setOpen} markerSelected={markerSelected} setMarkerSelected={setMarkerSelected} selectedDestInfo={selectedDestInfo} />
     </>
   );
 }

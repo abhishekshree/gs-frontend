@@ -1,5 +1,6 @@
 import React from "react";
 import { useState, useEffect, useContext } from 'react';
+import { useStore } from "store/store.js";
 import Map from "views/driver/Map.js";
 import DestinationList from "./DestinationsList";
 import OTPModal from "./OTPmodal";
@@ -24,7 +25,8 @@ const getAdminFromDriverId = (driverId) => {
 }
 
 export default function Driver(props) {
-  const {allDriverDestinations} = useContext(GlobalContext);
+  // const {allDriverDestinations} = useContext(GlobalContext);
+  const { allDriverDestinations } = useStore();
   const [openTab, setOpenTab] = React.useState(1);
   const { id } = useParams();
   const userId = id;

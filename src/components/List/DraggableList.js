@@ -49,7 +49,7 @@ const DraggableList = ({items,setItems,destinations,setDestinations,allDriverDes
 
     const handleClickButton = async () => {
         if(buttonMode === "Done"){
-            const res = await AdminAPIs.putRouteChange(driverId,items)
+            const res = await AdminAPIs.postRouteChange(driverId,items)
             if(!res){
                 setItems(destinations);
                 setButtonMode(buttonMode === "Edit" ? "Done" : "Edit");
@@ -59,8 +59,9 @@ const DraggableList = ({items,setItems,destinations,setDestinations,allDriverDes
             temp[adminId][driverId] = items;
             setAllDriverDestinations(temp);
             setDestinations(items)
-            
-            //post route list to backend          
+            console.log("driverId: ",driverId)
+            console.log("adminId ->",adminId)
+            console.log(temp)       
         }
         setButtonMode(buttonMode === "Edit" ? "Done" : "Edit");
     }

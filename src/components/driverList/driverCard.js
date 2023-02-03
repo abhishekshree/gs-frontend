@@ -1,15 +1,9 @@
 import React from "react";
 import CallIcon from '@mui/icons-material/Call';
 
-export default function DriverCard({props,handleLoadDriver,setOpenTab}) {
-    const handleClickMap = () => {
+export default function DriverCard({props,handleLoadDriver}) {
+    const handleClickView = () => {
         handleLoadDriver(props.driverId)
-        setOpenTab(2)
-    }
-
-    const handleClickList = () => {
-        handleLoadDriver(props.driverId)
-        setOpenTab(3)
     }
 
     return (
@@ -29,13 +23,8 @@ export default function DriverCard({props,handleLoadDriver,setOpenTab}) {
                         Destinations:
                     </h6>
                     <div>
-                        <button className="text-lightBlue-500 background-transparent font-bold uppercase px-8 outline-none focus:outline-none mr-1 ease-linear transition-all duration-150" type="button" onClick={handleClickList}>
-                            List View
-                        </button>
-                    </div>
-                    <div>
-                        <button className="text-lightBlue-500 background-transparent font-bold uppercase px-8 outline-none focus:outline-none mr-1 ease-linear transition-all duration-150" type="button" onClick={handleClickMap}>
-                            Map View
+                        <button className="text-lightBlue-500 background-transparent font-bold uppercase px-8 outline-none focus:outline-none mr-1 ease-linear transition-all duration-150" type="button" onClick={handleClickView}>
+                            View
                         </button>
                     </div>
                     <div className="mt-6">

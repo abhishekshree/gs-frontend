@@ -1,7 +1,7 @@
 import React from "react";
 import Navbar from "components/Navbars/AuthNavbar.js";
 import FooterSmall from "components/Footers/FooterSmall.js";
-import { useState, useContext } from "react";
+import { useState } from "react";
 // import { useNavigate } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import { GlobalContext } from "context/gobalContext.js";
@@ -9,7 +9,6 @@ import { AdminAPIs } from "API/admin.js";
 
 export default function Login() {
   // const navigate = useNavigate();
-  const { dayStarted, setDayStarted } = useContext(GlobalContext);
   const history = useHistory();
   const [role, setRole] = useState("admin");
   const [userId, setUserId] = useState(0);
@@ -30,10 +29,6 @@ export default function Login() {
       setRole("admin");
       setUserId(res?.id);
       setShowCredentials("block");
-      const temp = dayStarted;
-      temp[res.id] = false;
-      console.log(temp);
-      setDayStarted(temp);
     }
   }
   return (

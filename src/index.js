@@ -19,6 +19,7 @@ import Login from "views/auth/Login";
 import Start from "views/admin/Start.js"
 import GlobalContextProvider from "context/gobalContext.js";
 import Dashboard from "views/admin/AdminDashboard.js";
+import DriverInfo from "views/admin/DriverInfo.js";
 
 ReactDOM.render(
   <GlobalContextProvider>
@@ -32,6 +33,7 @@ ReactDOM.render(
         <Route path="/driver/:id" component={Driver}/>
         <Route exact path="/admin/:id/start" component={Start}/>
         <Route exact path="/admin/:id" component={AdminRouter}/>
+        <Route path="/admin/:id/driver/:dId" component={DriverInfo}/>
       </Switch>
     </BrowserRouter>
   </GlobalContextProvider>,

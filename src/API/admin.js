@@ -78,7 +78,7 @@ export const AdminAPIs = {
                 console.log(err)
                 return null
             }),
-    postAdminStart: (adminId,hubNode) => {
+    postAdminStart: (adminId,hubNode) =>
         instance
             .post(`${BASE_URL}/post/admin/start`,{admin_id: adminId, hub_node: hubNode})
             .then((res) => {
@@ -89,11 +89,10 @@ export const AdminAPIs = {
                 errorNotification("Failed to start admin",err.response?.data?.error)
                 console.log(err);
                 return null
-            })
-    },
-    putRouteChange: (driverId,data) =>
+            }),
+    postRouteChange: (driverId,items) =>
         instance
-            .put(`${BASE_URL}/post/admin/routeChange?driver_id=${driverId}`, data)
+            .post(`${BASE_URL}/post/driver/reorder`, {driver_id: driverId, items: items})
             .then(responseBody)
             .catch((err) => {
                 errorNotification("Failed to change the route",err.response?.data?.error)
@@ -103,9 +102,9 @@ export const AdminAPIs = {
     // putDeliveryComplete: (driverId,data) => {
 
     // }
-    postAdminDynamicPoints: (driverId,data) => {
+    postAdminDynamicPoints: (data) =>
         instance
-            .post(`${BASE_URL}/post/admin/dynamicPoints?driver_id=${driverId}`, data)
+            .post(`${BASE_URL}/post/admin/dynamicPoint`, data)
             .then((res) => {
                 return res?.data
             })
@@ -113,9 +112,8 @@ export const AdminAPIs = {
                 errorNotification("Failed to add new destination",err.response?.data?.error)
                 console.log(err);
                 return null
-            })
-    },
-    deleteDestination: (driverId,destinationId) => {
+            }),
+    deleteDestination: (driverId,destinationId) =>
         instance
             .delete(`${BASE_URL}/delete/admin/dynamicPoints?driver_id=${driverId}&destination_id=${destinationId}`)
             .then((res) => {
@@ -126,5 +124,4 @@ export const AdminAPIs = {
                 console.log(err);
                 return null
             })
-    }
 }

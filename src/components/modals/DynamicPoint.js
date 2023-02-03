@@ -1,20 +1,27 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { AdminAPIs } from "API/admin.js";
+import { DriverAPIs} from "API/driver.js"
 import { useContext } from 'react';
+import { useStore } from "store/store.js";
 import { GlobalContext } from "context/gobalContext.js";
 
-export default function DynamicPoint({showModal, setShowModal}) {
-    const {setAllDriverDestinations} = useContext(GlobalContext);
+export default function DynamicPoint({adminId,showModal, setShowModal}) {
+    // const {allDriverDestinations,setAllDriverDestinations} = useContext(GlobalContext);
+    const { allDriverDestinations, setAllDriverDestinations } = useStore();
 
     const { register, handleSubmit, formState: { errors } } = useForm();
     const onSubmit = async (data) => {
-        const res = await AdminAPIs.postAdminDynamicPoints(data);
+        const reqData = {
+            admin_id:adminId,
+            ...data
+        }
+        console.log(reqData)
+        const res = await AdminAPIs.postAdminDynamicPoints(reqData);
         if(!res){
             setShowModal(false);
             return;
         }
-        setAllDriverDestinations(res);
         setShowModal(false);
     }
     return (
@@ -58,7 +65,7 @@ export default function DynamicPoint({showModal, setShowModal}) {
                                             Address
                                         </label>
                                         <input
-                                            type="email"
+                                            type="text"
                                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                                             {...register("address", { required: true })}
                                         />
@@ -90,7 +97,7 @@ export default function DynamicPoint({showModal, setShowModal}) {
                                         <input
                                             type="text"
                                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                                            {...register("AWB", { required: true })}
+                                            {...register("awb", { required: true })}
                                         />
                                     </div>
                                 </div>
@@ -108,7 +115,22 @@ export default function DynamicPoint({showModal, setShowModal}) {
                                             {...register("product_id", { required: true })}
                                         />
                                     </div>
-                                </div> 
+                                </div>
+                                <div className="w-full lg:w-6/12 px-4">
+                                    <div className="relative w-full mb-3">
+                                        <label
+                                            className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                                            htmlFor="grid-password"
+                                        >
+                                            Volume
+                                        </label>
+                                        <input
+                                            type="number"
+                                            className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                                            {...register("volume", { required: true })}
+                                        />
+                                    </div>
+                                </div>  
                             </div>
                             <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
                                 <button

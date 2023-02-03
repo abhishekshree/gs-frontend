@@ -4,12 +4,14 @@ import { useContext } from 'react';
 import { GlobalContext } from "context/gobalContext.js";
 import Admin from "./Admin.js"
 import Start from "./Start.js"
+import { useStore } from "store/store.js";
 
 export default function AdminRouter(props){
-    const {dayStarted} = useContext(GlobalContext);
+    // const {dayStarted} = useContext(GlobalContext);
+    const { dayStarted } = useStore()
     const { id } = useParams();
     const userId = id;
-
+    
     return(
         <Route>
             {

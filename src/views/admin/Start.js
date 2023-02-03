@@ -1,5 +1,6 @@
 import React from "react";
 import { useState, useContext, useEffect } from 'react';
+import { useStore } from "store/store.js";
 import Loading from "components/Loading/loading.js";
 import { GlobalContext } from "context/gobalContext.js";
 import { useHistory, useParams } from "react-router-dom";
@@ -7,7 +8,6 @@ import { AdminAPIs } from "API/admin.js"
 import axios from "axios";
 // import startRes from "assets/input.json"; //harcoded response to be removed
 import { errorNotification } from "components/alerts/Alerts.js";
-
 
 function filterAbsurdDestinations(destinations) {
     const avgLat = destinations.reduce((total, next) => total + next.latitude, 0) / destinations.length;
@@ -29,9 +29,10 @@ export default function Start(props) {
     var FormData = require('form-data');
     const { id } = useParams();
     const userId = id;
-    const { dayStarted, setDayStarted } = useContext(GlobalContext);
-    const { allDriverDestinations, setAllDriverDestinations } = useContext(GlobalContext);
-    const [unroutedPoints,setUnroutedPoints] = useState([]);
+    // const { dayStarted, setDayStarted } = useContext(GlobalContext);
+    const { dayStarted, setDayStarted } = useStore();
+    // const { allDriverDestinations, setAllDriverDestinations } = useContext(GlobalContext);
+    const { allDriverDestinations, setAllDriverDestinations, unroutedPoints,setUnroutedPoints } = useStore();
     const [loading, setLoading] = useState(false);
     const [file, setFile] = useState();
     const [nDrivers, setnDrivers] = useState(0);
@@ -65,15 +66,21 @@ export default function Start(props) {
         destinationsData.append('admin_id', userId)
         // --- API call to submit input file ---
         const inputRes = await AdminAPIs.postAdminInput(destinationsData)
+        
+        console.log('input response:' ,inputRes)
         if(!inputRes){
             setLoading(false);
+            console.log("inputres not received")
             return
         }
         setSuccInputMsg("block");
         // --- API call to get output map for this admin---
+        console.log("starting start")
         const startRes = await  AdminAPIs.postAdminStart(userId,hubNode)
-        // console.log(startRes)
+        console.log("out of start")
+        console.log(startRes)
         if(!startRes){
+            console.log("startRes is null")
             setSuccInputMsg("hidden");
             setLoading(false);
             return
@@ -90,7 +97,8 @@ export default function Start(props) {
 
         setAllDriverDestinations(tempAllDriverDestinations);
 
-        const temp = dayStarted;
+        console.log("SHoudl reroute now")
+        let temp = dayStarted;
         temp[userId] = true;
         setDayStarted(temp);
         setLoading(false);

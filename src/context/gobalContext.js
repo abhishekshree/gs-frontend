@@ -6,10 +6,14 @@ const GlobalContextProvider = (props) => {
     const [allDriverDestinations,setAllDriverDestinations] = useState({});
     const [dayStarted,setDayStarted] = useState({});
     
-    useEffect(() => {
-        const adminDayStarted = AdminAPIs?.getAdminDayStarted();
-        setDayStarted(adminDayStarted);
-    }, []);
+    // useEffect(() => {
+    //     const getGlobalVariables = async () => {
+    //         const adminDayStarted = await AdminAPIs?.getAdminDayStarted();
+    //         setDayStarted(adminDayStarted);
+    //         console.log(adminDayStarted);
+    //     }
+    //     getGlobalVariables();
+    // }, []);
 
     return (
         <GlobalContext.Provider 
