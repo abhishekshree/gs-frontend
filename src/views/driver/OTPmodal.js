@@ -34,6 +34,7 @@ export default function OTPModal({showOTPModal,setShowOTPModal,destinations,setD
         setOTP("")
         console.log("delivery completed")
         successNotification("Delivery Completed")
+        
         // --- Hardcoding ---
         // setCompletedDest([...completedDest,deliveryLocation])
         // if(destinations.length>1)
@@ -42,8 +43,8 @@ export default function OTPModal({showOTPModal,setShowOTPModal,destinations,setD
         //     setDeliveryLocation({})
         // setDestinations(destinations.slice(1,))
         // ------------------
+
         getDriverDestinations(userId)
-        // ------------------
     }
 
     return (

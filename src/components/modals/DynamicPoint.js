@@ -28,10 +28,7 @@ export default function DynamicPoint({adminId,showModal, setShowModal}) {
         <>
         {showModal ? (
             <>
-                {/* <div className="w-full fixed inset-0 z-40"> */}
-                <div
-                className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
-            >
+                <div className="w-full opacity-0 fixed inset-0 z-40">
                     <div
                         className="relative flex flex-col min-w-0 break-words lg:w-1/2 shadow-lg rounded-lg bg-blueGray-100 border-0"
                     >

@@ -1,10 +1,10 @@
 import { AdminAPIs } from "API/admin.js";
 import Loading from "components/Loading/loading.js";
-import { useState } from 'react';
 import { useHistory, useParams } from "react-router-dom";
-import { useStore } from "store/store.js";
-// import startRes from "assets/input.json"; //harcoded response to be removed
+import startRes from "assets/input.json"; //harcoded response to be removed
 import { errorNotification } from "components/alerts/Alerts.js";
+import  { useState } from "react";
+import { useStore } from "store/store.js";
 
 function filterAbsurdDestinations(destinations) {
     const avgLat = destinations.reduce((total, next) => total + next.latitude, 0) / destinations.length;
@@ -22,20 +22,18 @@ function filterAbsurdDestinations(destinations) {
 
 
 export default function Start(props) {
-    // var axios = require('axios');
+    const history = useHistory();
     var FormData = require('form-data');
     const { id } = useParams();
     const userId = id;
-    // const { dayStarted, setDayStarted } = useContext(GlobalContext);
     const { dayStarted, setDayStarted } = useStore();
-    // const { allDriverDestinations, setAllDriverDestinations } = useContext(GlobalContext);
     const { allDriverDestinations, setAllDriverDestinations, unroutedPoints, setUnroutedPoints } = useStore();
+
     const [loading, setLoading] = useState(false);
     const [file, setFile] = useState();
     const [nDrivers, setnDrivers] = useState(0);
-    const [hubNode,setHubNode] =  useState(0);
+    const [hubNode, setHubNode] = useState(0);
     const [succInputMsg, setSuccInputMsg] = useState("hidden")
-    const history = useHistory();
 
     const handleChangeNDrivers = (e) => {
         setnDrivers(e.target.value);
@@ -62,43 +60,41 @@ export default function Start(props) {
         destinationsData.append('no_of_drivers', nDrivers)
         destinationsData.append('admin_id', userId)
         // --- API call to submit input file ---
-        const inputRes = await AdminAPIs.postAdminInput(destinationsData)
-        
-        console.log('input response:' ,inputRes)
-        if(!inputRes){
-            setLoading(false);
-            console.log("inputres not received")
-            return
-        }
-        setSuccInputMsg("block");
+        // const inputRes = await AdminAPIs.postAdminInput(destinationsData)
+
+        // console.log('input response:' ,inputRes)
+        // if(!inputRes){
+        //     setLoading(false);
+        //     console.log("inputres not received")
+        //     return
+        // }
+        // setSuccInputMsg("block");
         // --- API call to get output map for this admin---
-        console.log("starting start")
-        const startRes = await  AdminAPIs.postAdminStart(userId,hubNode)
-        console.log("out of start")
-        console.log(startRes)
-        if(!startRes){
-            console.log("startRes is null")
-            setSuccInputMsg("hidden");
-            setLoading(false);
-            return
-        }
+        // console.log("starting start")
+        // const startRes = await  AdminAPIs.postAdminStart(userId,hubNode)
+        // console.log("out of start")
+        // console.log(startRes)
+        // if(!startRes){
+        //     console.log("startRes is null")
+        //     setSuccInputMsg("hidden");
+        //     setLoading(false);
+        //     return
+        // }
         // -------------------------------------
-        setUnroutedPoints(startRes.Unrouted_points)
-        console.log(unroutedPoints)
-        const tempAllDriverDestinations = allDriverDestinations;
-        const thisAdminDriverDest = {};
-        for (let i = 0; i < startRes.Routes.length; i++) {
-            const driverId = userId.toString() + "_" + (i + 1).toString();
-            thisAdminDriverDest[driverId] = filterAbsurdDestinations(startRes.Routes[i]);
-        }
-        tempAllDriverDestinations[userId] = thisAdminDriverDest;
+        setUnroutedPoints(startRes.unrouted_points)
+        // const tempAllDriverDestinations = allDriverDestinations;
+        // const thisAdminDriverDest = {};
+        // for (let i = 0; i < startRes.Routes.length; i++) {
+        //     const driverId = userId.toString() + "_" + (i + 1).toString();
+        //     thisAdminDriverDest[driverId] = filterAbsurdDestinations(startRes.Routes[i]);
+        // }
+        // tempAllDriverDestinations[userId] = thisAdminDriverDest;
+        // setAllDriverDestinations(tempAllDriverDestinations);
 
-        setAllDriverDestinations(tempAllDriverDestinations);
-
-        console.log("SHoudl reroute now")
         let temp = dayStarted;
         temp[userId] = true;
         setDayStarted(temp);
+
         setLoading(false);
         const redirectUrl = "/admin/" + userId.toString() //to be removed
         history.replace(redirectUrl)
@@ -183,60 +179,6 @@ export default function Start(props) {
                     </div>
                 </div>
             </div>
-            {/* <div className="flex flex-wrap p-4">
-            <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-100 border-0">
-                {
-                    (!loading)&&(
-                    <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
-                        <form>
-                            <div className="flex flex-wrap">
-                                <div class="flex justify-center">
-                                    <div class="mb-3 w-full mt-3">
-                                        <label for="formFile" class="block uppercase text-blueGray-600 text-xs font-bold mb-2">Drop Destinations File</label>
-                                        <input class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" type="file" id="formFile"
-                                            onChange={handleFileChange}
-                                        />
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <label
-                                        className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                                        htmlFor="grid-password"
-                                    >
-                                        No of Drives
-                                    </label>
-                                    <input
-                                        className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                                        value = {nDrivers}
-                                        onChange = {handleChangeNDrivers}
-                                    />
-                                </div>
-                                <button className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-sm px-6 py-3 rounded-full shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 w-1/4 ml-auto" type="button" onClick={handleUploadClick}>
-                                    Start Journey
-                                </button>
-                            </div>
-                            <hr className="mt-6 border-b-1 border-blueGray-300" />
-                        </form>
-                    </div>
-                    )
-                }
-                {
-                    (loading)&&(
-                        <>
-                            <Loading />
-                            <div className={succInputMsg}>
-                                <p className="text-base font-light leading-relaxed mt-0 mb-4 text-blueGray-800 ">
-                                    Input Successful!
-                                </p>
-                                <p className="text-lg font-light leading-relaxed mt-6 mb-4 text-red-800">
-                                    Waiting for the driver information
-                                </p>
-                            </div>
-                        </>
-                    )
-                }
-            </div>
-        </div> */}
         </>
     );
 }

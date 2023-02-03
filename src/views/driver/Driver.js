@@ -1,6 +1,7 @@
 import FeaturedPlayListIcon from "@mui/icons-material/FeaturedPlayList";
 import MapIcon from "@mui/icons-material/Map";
 import { DriverAPIs } from "API/driver.js";
+import { driverDestinations } from "constants";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useStore } from "store/store.js";
@@ -22,22 +23,13 @@ const getAdminFromDriverId = (driverId) => {
 };
 
 export default function Driver(props) {
-  // const {allDriverDestinations} = useContext(GlobalContext);
   const { allDriverDestinations } = useStore();
   const [openTab, setOpenTab] = React.useState(1);
   const { id } = useParams();
   const userId = id;
   const adminId = getAdminFromDriverId(userId);
-  // const {userId} = props;
-  const [currLocation, setCurrLocatoin] = useState({
-    latitude: 12.9140182,
-    longitude: 77.5747463,
-  });
-  const [deliveryLocation, setDeliveryLocation] = useState({
-    latitude: 12.9414398,
-    longitude: 77.5454111,
-    locationId: 1,
-  });
+  const [currLocation, setCurrLocation] = useState({});
+  const [deliveryLocation,setDeliveryLocation] = useState({});
   const [showOTPModal, setShowOTPModal] = React.useState(false);
   const [destinations, setDestinations] = useState([]);
   const [completedDest, setCompletedDest] = useState([]);
@@ -68,23 +60,26 @@ export default function Driver(props) {
           locationId: i + 1,
         };
       })
-    );
-    setDeliveryLocation({ ...res[0], locationId: 1 });
+    )
+    setCurrLocation({...res[0],locationId:0})
+    if(res.length>1)
+      setDeliveryLocation({...res[1],locationId:1});
     setCompletedDest(completed);
   };
 
   useEffect(() => {
-    getDriverDestinations();
+    // getDriverDestinations();
     //--- Hardocding ----
-    // if(driverDestinations !== null){ // allDriverDestinations !== null
-    //   setDestinations(driverDestinations[userId]?.map((dest,i) => {
-    //     return({
-    //       ...dest,
-    //       locationId: i+1
-    //     })
-    //   }))
-    //   setDeliveryLocation({...driverDestinations[userId][0],locationId:1});
-    // }
+    if(driverDestinations !== null){
+      setDestinations(driverDestinations[userId]?.map((dest,i) => {
+        return({
+          ...dest,
+          locationId: i+1
+        })
+      }))
+      setCurrLocation({...driverDestinations[userId][0],locationId:0})
+      setDeliveryLocation({...driverDestinations[userId][1],locationId:1});
+    }
     // ------------------
   }, []);
 
@@ -92,7 +87,7 @@ export default function Driver(props) {
     <div className="w-screen h-screen flex flex-col">
       <div>
         <ul
-          className="flex list-none flex-wrap pt-3 pb-4 flex-row"
+          className="flex list-none flex-wrap pb-2 flex-row"
           role="tablist"
         >
           <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">

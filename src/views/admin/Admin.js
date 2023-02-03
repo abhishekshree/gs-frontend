@@ -8,7 +8,7 @@ import DriverList from "components/driverList/driverList.js";
 import DynamicPoint from "components/modals/DynamicPoint";
 import { useHistory, useParams } from "react-router-dom";
 import { useStore } from "store/store.js";
-
+import startRes from "assets/input.json"; //harcoded response to be removed
 
 export default function Admin(props) {
   // const { allDriverDestinations, setAllDriverDestinations } = useContext(GlobalContext);
@@ -34,7 +34,7 @@ export default function Admin(props) {
   const handleLoadDriver = async (driverId) => {
     if (!driverId)
       return
-    history.replace(`/admin/${userId}/driver/${driverId}`)
+    history.push(`/driver/${driverId}`)
     // const temp = allDriverDestinations[userId][driverId]?.map((dest, i) => { //need to change this to get from backend
     //   return ({
     //     ...dest,
@@ -59,13 +59,17 @@ export default function Admin(props) {
       }))
       console.log(temp)
     }
-    getDrivers()
-    // const drivers = Object.keys(allDriverDestinations[userId])
-    // setDrivers(drivers)
-    //   const temp = drivers.map((driverId) => {
-    //     return ({ driverId: driverId })
-    // })
-    // setDriverInfo(temp)
+    // getDrivers()
+
+    // --- Hardcoding ---
+    const drivers = Object.keys(startRes["Routes"].map((_,index) => userId?.toString()+"_"+index.toString()))
+    setDrivers(drivers)
+      const temp = drivers.map((driverId) => {
+        return ({ driverId: driverId })
+    })
+    setDriverInfo(temp)
+    // ------------------
+
   }, []);
 
   return (
@@ -114,25 +118,6 @@ export default function Admin(props) {
                 <MapIcon /> Unrouted Points
               </a>
             </li>
-            {/* <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
-              <a
-                className={
-                  "text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal " +
-                  (openTab === 3
-                    ? "text-white bg-lightBlue-600"
-                    : "text-lightBlue-600 bg-white")
-                }
-                onClick={e => {
-                  e.preventDefault();
-                  setOpenTab(3);
-                }}
-                data-toggle="tab"
-                href="#link3"
-                role="tablist"
-              >
-                <FeaturedPlayListIcon />  Destinations
-              </a>
-            </li> */}
           </ul>
           
           <div>
@@ -151,34 +136,6 @@ export default function Admin(props) {
                 <div className={openTab === 1 ? "block" : "hidden"} id="link1">
                     <DriverList drivers={driverInfo} handleLoadDriver={handleLoadDriver} setOpenTab={setOpenTab}/>
                 </div>
-                {/* <div className={openTab === 2 ? "block" : "hidden"} id="link2">
-                  {destinations?.length > 0 &&
-                    (<Map
-                      currLocation={currLocation}
-                      destinations={destinations}
-                      zoom_level={12}
-                      travel_mode="truck"
-                      setOpen={setOpen}
-                      setMarkerSelected={setMarkerSelected}
-                      setSelectedDestInfo={setSelectedDestInfo}
-                    />)
-                  }
-                </div> */}
-                {/* <div className={openTab === 3 ? "block" : "hidden"} id="link3">
-                  {
-                    items?.length > 0 &&
-                    <DraggableList
-                      destinations={destinations}
-                      setDestinations={setDestinations}
-                      items={items}
-                      setItems={setItems}
-                      allDriverDestinations={allDriverDestinations}
-                      setAllDriverDestinations={setAllDriverDestinations}
-                      adminId={userId}
-                      driverId={driverId}
-                    />
-                  }
-                </div> */}
                 <div className={openTab === 2 ? "block" : "hidden"} id="link2">
                   <UnroutedList deliveryLocations={unroutedPoints} />
                 </div>

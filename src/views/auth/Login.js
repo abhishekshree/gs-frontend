@@ -1,10 +1,8 @@
 import { useState } from "react";
-// import { useNavigate } from "react-router-dom";
 import { AdminAPIs } from "API/admin.js";
 import { useHistory } from "react-router-dom";
 
 export default function Login() {
-  // const navigate = useNavigate();
   const history = useHistory();
   const [role, setRole] = useState("admin");
   const [userId, setUserId] = useState(0);
@@ -16,7 +14,6 @@ export default function Login() {
     setUserId(e.target.value);
   };
   const handleLogin = () => {
-    // navigate(`/${role}/${userId}`);
     history.push(`/${role}/${userId}`);
   };
   const handleCreateAdmin = async () => {

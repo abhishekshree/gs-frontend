@@ -55,13 +55,12 @@ const DraggableList = ({items,setItems,destinations,setDestinations,allDriverDes
                 setButtonMode(buttonMode === "Edit" ? "Done" : "Edit");
                 return
             }
-            let temp = allDriverDestinations;
-            temp[adminId][driverId] = items;
-            setAllDriverDestinations(temp);
-            setDestinations(items)
+            // let temp = allDriverDestinations;
+            // temp[adminId][driverId] = items;
+            // setAllDriverDestinations(temp);
+            // setDestinations(items)
             console.log("driverId: ",driverId)
-            console.log("adminId ->",adminId)
-            console.log(temp)       
+            console.log("adminId ->",adminId)  
         }
         setButtonMode(buttonMode === "Edit" ? "Done" : "Edit");
     }
