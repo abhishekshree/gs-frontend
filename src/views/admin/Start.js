@@ -119,8 +119,8 @@ export default function Start(props) {
                                             Start Journey
                                         </h4>
                                         <div className="relative w-full mb-3 mt-8">
-                                            <label for="formFile" class="block uppercase text-blueGray-600 text-xs font-bold mb-2">Drop Destinations File</label>
-                                            <input class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" type="file" id="formFile"
+                                            <label htmlFor="formFile" className="block uppercase text-blueGray-600 text-xs font-bold mb-2">Drop Destinations File</label>
+                                            <input className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" type="file" id="formFile"
                                                 onChange={handleFileChange}
                                             />
                                         </div>

@@ -4,13 +4,13 @@ export default function CardDrawer({props}) {
   return (
     <div className="w-full p-4 rounded-2xl bg-white dark:bg-slate-800 flex flex-col ease-linear duration-300 md:flex-row-reverse">
       <div className=" h-full w-full mr-2 rounded-2xl ">
-        <div class="divide-y8 divide-solid">
+        <div className="divide-y8 divide-solid">
             <div>
                 <p className="m-2 font-bold pl-1 text-lg text-indigo-800">Address</p>
                 <p className="m-2 text-2xl font-bold dark:text-white">
                     {props.address}
                 </p>
-                <hr class="h-px my-8 bg-indigo-700"/>
+                <hr className="h-px my-8 bg-indigo-700"/>
             </div>
 
             <div>

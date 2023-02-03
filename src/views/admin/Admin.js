@@ -1,20 +1,13 @@
-import React from "react";
-import { useState, useEffect, useContext } from 'react';
+import { useEffect, useState } from 'react';
 
-import { useStore } from "store/store.js";
-import Map from "views/admin/Map.js";
-import SwipeableEdgeDrawer from "components/BottomDrawer/SwipeableEdgeDrawer.js";
-import { GlobalContext } from "context/gobalContext.js";
-import { AdminAPIs } from "API/admin.js";
-import { useHistory,useParams } from "react-router-dom";
-import DraggableList from "components/List/DraggableList.js";
-import DynamicPoint from "components/modals/DynamicPoint";
-import MapIcon from '@mui/icons-material/Map';
-import FeaturedPlayListIcon from '@mui/icons-material/FeaturedPlayList';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
-import DriverList from "components/driverList/driverList.js";
+import MapIcon from '@mui/icons-material/Map';
+import { AdminAPIs } from "API/admin.js";
 import UnroutedList from "components/List/UnroutedList.js";
-import { DriverAPIs } from "API/driver";
+import DriverList from "components/driverList/driverList.js";
+import DynamicPoint from "components/modals/DynamicPoint";
+import { useHistory, useParams } from "react-router-dom";
+import { useStore } from "store/store.js";
 
 
 export default function Admin(props) {

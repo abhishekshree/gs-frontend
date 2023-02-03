@@ -69,7 +69,7 @@ export default function OTPModal({showOTPModal,setShowOTPModal,destinations,setD
                         </button>
                         </div>
                         <div className="relative p-6 flex-auto">
-                            <input type="text" placeholder="OTP" class="px-2 py-1 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline mr-2" value={OTP} onChange={handleChangeOTP}/>
+                            <input type="text" placeholder="OTP" className="px-2 py-1 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline mr-2" value={OTP} onChange={handleChangeOTP}/>
                         </div>
                         <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
                         <button
