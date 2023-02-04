@@ -8,9 +8,10 @@ import { useStore } from "store/store.js";
 import Map from "views/driver/Map.js";
 import DestinationList from "./DestinationsList";
 import OTPModal from "./OTPmodal";
+import SwipeableEdgeDrawer from "components/BottomDrawer/SwipeableEdgeDrawer.js";
 
 const getAdminFromDriverId = (driverId) => {
-  if (driverId.length > 0) {
+  if (driverId?.length > 0) {
     let adminId = "";
     for (let i = 0; i < driverId.length; i++) {
       if (driverId[i] === "_") {
@@ -28,11 +29,15 @@ export default function Driver(props) {
   const { id } = useParams();
   const userId = id;
   const adminId = getAdminFromDriverId(userId);
-  const [currLocation, setCurrLocation] = useState({});
-  const [deliveryLocation,setDeliveryLocation] = useState({});
+  const [currLocation, setCurrLocation] = useState(null);
+  const [deliveryLocation,setDeliveryLocation] = useState(null);
   const [showOTPModal, setShowOTPModal] = React.useState(false);
   const [destinations, setDestinations] = useState([]);
   const [completedDest, setCompletedDest] = useState([]);
+  const [open,setOpen] = useState(false);
+  const [markerSelected, setMarkerSelected] = useState(0); //marker selected in the map
+  const [selectedDestInfo, setSelectedDestInfo] = useState({}); //selected destination info
+  const [isLoading,setIsLoading] = useState(true);
 
   const handleDelivery = async () => {
     await DriverAPIs.generateOTP();
@@ -61,14 +66,16 @@ export default function Driver(props) {
         };
       })
     )
-    setCurrLocation({...res[0],locationId:0})
-    if(res.length>1)
-      setDeliveryLocation({...res[1],locationId:1});
+    setCurrLocation(completed[-1])
+    if(res.length>1) 
+      setDeliveryLocation(notCompleted[0]);
     setCompletedDest(completed);
   };
 
   useEffect(() => {
-    getDriverDestinations();
+    setIsLoading(true);
+    getDriverDestinations(userId);
+    setIsLoading(false);
     //--- Hardocding ----
     // if(driverDestinations !== null){
     //   setDestinations(driverDestinations[userId]?.map((dest,i) => {
@@ -147,6 +154,7 @@ export default function Driver(props) {
         <div className="">
           <div className={openTab === 1 ? "block" : "hidden"} id="link1">
             <div className="w-full h-full">
+              {(!isLoading) && 
               <Map
                 currLocation={currLocation}
                 deliveryLocation={deliveryLocation}
@@ -154,7 +162,7 @@ export default function Driver(props) {
                 zoom_level={12}
                 travel_mode="truck"
                 completedDest={completedDest}
-              />
+              />}
             </div>
             <div className="flex justify-center w-screen">
               <button
@@ -181,6 +189,7 @@ export default function Driver(props) {
             />
           </div>
         </div>
+        <SwipeableEdgeDrawer open={open} setOpen={setOpen} markerSelected={markerSelected} setMarkerSelected={setMarkerSelected} selectedDestInfo={selectedDestInfo} />
       </div>
     </div>
   );

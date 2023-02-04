@@ -6,20 +6,29 @@ import { useEffect, useState, useRef } from "react";
 import { api_key } from "constants.js"
 import "../../App.css"
 
-function Map({ currLocation, deliveryLocation, destinations, zoom_level, travel_mode, completedDest }) {
+function Map({ currLocation, deliveryLocation, destinations, zoom_level, travel_mode, completedDest, setOpen,setMarkerSelected,setDestInfoSelected }) {
     const mapElement = useRef();
     const [map, setMap] = useState(null); 
-    const [waypoints,setWayPoints] = useState(destinations);
+
+    function handleMarkerClick(e){
+      setOpen("true");
+      setMarkerSelected(Number(e.target.id)); //setMarkerSelected(marker_id) TBD
+      setDestInfoSelected(destinations[Number(e.target.id)-1]);
+    }
 
     function create_delivery_marker(location) {
         const marker_el = document.createElement("div");
         marker_el.className = 'marker-delivery';
+        marker_el.id = location.locationId?.toString();
         marker_el.id=deliveryLocation.locationId
-        // const popup = new tt.Popup({ offset: 20 }).setText(location.name);
+        const popup = new tt.Popup({ offset: 20 }).setHTML(
+          `Location Number:${location.id}`
+        );
         const marker = new tt.Marker({ element: marker_el, anchor: "bottom" })
         .setLngLat([location.longitude, location.latitude])
-        .addTo(map);
-
+        .addTo(map)
+        .setPopup(popup);
+        marker_el.addEventListener('click',(e)=>handleMarkerClick(e));
         return marker;
     }
 
@@ -96,7 +105,7 @@ function Map({ currLocation, deliveryLocation, destinations, zoom_level, travel_
     }, []);
     
     useEffect(() => {
-        if (map) {
+        if (map && currLocation && deliveryLocation) {
           createRoute()
           create_driver_marker(currLocation,map)
           create_delivery_marker(deliveryLocation,map)

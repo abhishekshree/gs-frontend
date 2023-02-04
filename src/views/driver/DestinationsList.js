@@ -5,12 +5,12 @@ export default function DestinationList({completedDest,deliveryLocations}){
     return(
         <div className="container w-100 lg:w-4/5 mx-auto flex flex-col">
             {
-                deliveryLocations.map((location) => <CardDestination props={location}/>)
+                deliveryLocations.map((location,index) => <CardDestination props={location}/>)
 
             }
             <hr />
             {
-                completedDest.map((location) => <CardDestination props={location}/>)
+                completedDest.map((location,index) => <CardDestination props={location}/>)
             }
         </div>
     )
