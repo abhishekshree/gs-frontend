@@ -34,11 +34,19 @@ export default function Login() {
               backgroundColor: "#1E293B",
             }}
           >
-            <div className="container h-4 w-full px-4 content-center h-full place-self-center">
+            <div className="container h-4 w-full px-4 content-center h-full place-self-center" 
+                style={{
+                  backgroundImage:
+                    "url(" + require("/public/img/register_bg_2.png").default + ")",
+                }}
+            >
               <span className="text-center">
                 <h1 className="text-5xl font-normal leading-normal mt-0 mb-2 text-blueGray-300">
                   GROW SIMPLEE
                 </h1>
+                {/* <div className="items-center" style={{alignItems: "center"}}>
+                  <img alt="GROW SIMPLEE" src={require("assets/img/gslogo.png").default} width="500rem"/>
+                </div> */}
               </span>
               <hr
                 style={{ width: "90%" }}

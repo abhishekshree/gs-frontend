@@ -1,13 +1,8 @@
-import React from "react";
-import { useForm } from "react-hook-form";
 import { AdminAPIs } from "API/admin.js";
-import { DriverAPIs} from "API/driver.js"
-import { useContext } from 'react';
+import { useForm } from "react-hook-form";
 import { useStore } from "store/store.js";
-import { GlobalContext } from "context/gobalContext.js";
 
 export default function DynamicPoint({adminId,showModal, setShowModal}) {
-    // const {allDriverDestinations,setAllDriverDestinations} = useContext(GlobalContext);
     const { allDriverDestinations, setAllDriverDestinations } = useStore();
 
     const { register, handleSubmit, formState: { errors } } = useForm();

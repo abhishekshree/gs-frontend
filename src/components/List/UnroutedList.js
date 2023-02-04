@@ -12,7 +12,7 @@ export default function UnroutedList({deliveryLocations}){
                 <h2 className="text-5xl font-normal leading-normal mt-0 mb-2 text-blueGray-800 text-center">
                     <img 
                         alt="" 
-                        src={require("assets/img/All-Good.gif").default}
+                        // src={require("assets/img/All-Good.gif").default}
                     />
                     No Unrouted Points
                 </h2>
