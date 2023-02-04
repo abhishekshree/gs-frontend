@@ -99,9 +99,6 @@ export const AdminAPIs = {
                 console.log(err);
                 return null
             }),
-    // putDeliveryComplete: (driverId,data) => {
-
-    // }
     postAdminDynamicPoints: (data) =>
         instance
             .post(`${BASE_URL}/post/admin/dynamicPoint`, data)
@@ -110,6 +107,15 @@ export const AdminAPIs = {
             })
             .catch((err) => {
                 errorNotification("Failed to add new destination",err.response?.data?.error)
+                console.log(err);
+                return null
+            }),
+    postDayEnd: (adminId) =>
+        instance
+            .post(`${BASE_URL}/post/admin/end`, {admin_id: adminId})
+            .then(responseBody)
+            .catch((err) => {
+                errorNotification("Failed to end day",err.response?.data?.error)
                 console.log(err);
                 return null
             }),

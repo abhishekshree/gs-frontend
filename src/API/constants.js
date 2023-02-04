@@ -1,4 +1,4 @@
-export const BASE_URL = "http://172.17.0.3:5050"
+export const BASE_URL = "https://38b3-14-139-38-156.in.ngrok.io/"
 
 export const SERVER_ERROR = "Aw, Snap! Server maybe down.";
 

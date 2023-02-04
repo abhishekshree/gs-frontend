@@ -34,11 +34,26 @@ export default function Admin(props) {
   const handleLoadDriver = async (driverId) => {
     if (!driverId)
       return
-    history.push(`/driver/${driverId}`)
+    history.push(`/admin/${userId}/driver/${driverId}`)
   }
 
   const handleDynamicPoint = () => {
     setOpenDynamicPoint(true);
+  }
+
+  const handleLogOut = () => {
+    if(window!==undefined)
+      window.localStorage.clear();
+    history.replace("/");
+  }
+
+  const handleEndJourney = () => {
+    const res = AdminAPIs.postDayEnd(userId)
+    if(!res)
+      return
+    if(window!==undefined)
+      window.localStorage.clear();
+    history.replace(`/`)
   }
 
   useEffect(() => {
@@ -116,6 +131,12 @@ export default function Admin(props) {
             <div>
               <button className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-sm px-6 py-3 rounded-full shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 w-1/4 ml-auto" type="button" onClick={handleDynamicPoint}>
                 Add Points
+              </button>
+              <button className="bg-red-500 text-white active:bg-red-600 font-bold uppercase text-sm px-6 py-3 rounded-full shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onClick={handleLogOut}>
+                Log Out
+              </button>
+              <button className="bg-red-500 text-white active:bg-red-600 font-bold uppercase text-sm px-6 py-3 rounded-full shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onClick={handleEndJourney}>
+                End Journey
               </button>
             </div>
           </div>

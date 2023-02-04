@@ -34,12 +34,7 @@ export default function Login() {
               backgroundColor: "#1E293B",
             }}
           >
-            <div className="container h-4 w-full px-4 content-center h-full place-self-center" 
-                style={{
-                  backgroundImage:
-                    "url(" + require("/public/img/register_bg_2.png").default + ")",
-                }}
-            >
+            <div className="container h-4 w-full px-4 content-center h-full place-self-center" >
               <span className="text-center">
                 <h1 className="text-5xl font-normal leading-normal mt-0 mb-2 text-blueGray-300">
                   GROW SIMPLEE
