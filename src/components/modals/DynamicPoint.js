@@ -2,7 +2,7 @@ import { AdminAPIs } from "API/admin.js";
 import { useForm } from "react-hook-form";
 import { useStore } from "store/store.js";
 
-export default function DynamicPoint({ adminId, showModal, setShowModal }) {
+export default function DynamicPoint({ adminId }) {
     const { allDriverDestinations, setAllDriverDestinations } = useStore();
 
     const { register, handleSubmit, formState: { errors } } = useForm();
@@ -13,11 +13,10 @@ export default function DynamicPoint({ adminId, showModal, setShowModal }) {
         }
         console.log(reqData)
         const res = await AdminAPIs.postAdminDynamicPoints(reqData);
+        
         if (!res) {
-            setShowModal(false);
             return;
         }
-        setShowModal(false);
     }
     return (
         <div className="opacity-0 relative inset-0">
