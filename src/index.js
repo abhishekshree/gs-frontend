@@ -23,7 +23,7 @@ ReactDOM.render(
       <Route path="/" exact component={Login} testProp="testProp" />
       <Route path="/driver/:id" component={Driver} />
       <Route exact path="/admin/:id/start" component={Start} />
-      <Route exact path="/admin/:id" component={AdminRouter} />
+      <Route exact path="/admin/:id/:page" component={AdminRouter} />
       <Route path="/admin/:id/driver/:dId" component={DriverInfo} />
     </Switch>
   </BrowserRouter>,

@@ -5,6 +5,7 @@ import { errorNotification } from "components/alerts/Alerts.js";
 
 const instance = axios.create({
     baseURL: BASE_URL,
+    headers:{"ngrok-skip-browser-warning": true}
 });
 
 export const DriverAPIs = {

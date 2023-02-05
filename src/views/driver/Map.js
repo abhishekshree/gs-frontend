@@ -105,6 +105,7 @@ function Map({ currLocation, deliveryLocation, destinations, zoom_level, travel_
     }, []);
     
     useEffect(() => {
+      console.log("currLocation changed ->",currLocation)
         if (map && currLocation && deliveryLocation) {
           createRoute()
           create_driver_marker(currLocation,map)

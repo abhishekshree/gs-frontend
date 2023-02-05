@@ -14,7 +14,7 @@ export default function Login() {
     setUserId(e.target.value);
   };
   const handleLogin = () => {
-    history.push(`/${role}/${userId}`);
+    history.push(`/${role}/${userId}/drivers`);
   };
   const handleCreateAdmin = async () => {
     const res = await AdminAPIs.createAdmin();

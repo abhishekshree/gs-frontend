@@ -91,7 +91,7 @@ export default function Start(props) {
         setDayStarted(temp);
 
         setLoading(false);
-        const redirectUrl = "/admin/" + userId.toString() //to be removed
+        const redirectUrl = "/admin/" + userId.toString() + "/drivers" //to be removed
         history.replace(redirectUrl)
     };
 
@@ -173,6 +173,7 @@ export default function Start(props) {
                         </div>
                     </div>
                 </div>
+                <img src={require("assets/img/startingJourney.gif").default} alt="nope" width="100px" height="auto"/>
             </div>
         </>
     );

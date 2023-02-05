@@ -22,14 +22,7 @@ export default function Admin(props) {
   const [drivers, setDrivers] = useState([]) //list of drivers that fall under this admin
   const [driverInfo,setDriverInfo] = useState([])
   const [openTab, setOpenTab] = useState(1);
-  const [driverId, setDriverId] = useState(null); //current driver id in the input
-  const [destinations, setDestinations] = useState([]); //current driver destinations
-  const [items, setItems] = useState([]); //list items
-  const [currLocation, setCurrLocatoin] = useState({ latitude: 12.9140182, longitude: 77.5747463 });
-  const [open, setOpen] = useState(false); //swipeable edge drawer open
   const [openDynamicPoint, setOpenDynamicPoint] = useState(false); //dynamic point drawer open
-  const [markerSelected, setMarkerSelected] = useState(0); //marker selected in the map
-  const [selectedDestInfo, setSelectedDestInfo] = useState({}); //selected destination info
 
   const handleLoadDriver = async (driverId) => {
     if (!driverId)

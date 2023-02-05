@@ -45,12 +45,14 @@ export default function Driver(props) {
   };
 
   const getDriverDestinations = async (userId) => {
+    setIsLoading(true);
     const res = await DriverAPIs.getDriverPath(userId);
     if (!res) {
       return;
     }
     let completed = [],
       notCompleted = [];
+    console.log(res)
     for (let i = 0; i < res.length; i++) {
       if (res[i].delivered === true) {
         completed.push(res[i]);
@@ -66,16 +68,17 @@ export default function Driver(props) {
         };
       })
     )
+    console.log(completed[completed.length-1],notCompleted[0])
     setCurrLocation(completed[-1])
     if(res.length>1) 
       setDeliveryLocation(notCompleted[0]);
     setCompletedDest(completed);
+    setIsLoading(false);
+    console.log(currLocation,deliveryLocation)
   };
 
   useEffect(() => {
-    setIsLoading(true);
     getDriverDestinations(userId);
-    setIsLoading(false);
     //--- Hardocding ----
     // if(driverDestinations !== null){
     //   setDestinations(driverDestinations[userId]?.map((dest,i) => {
@@ -162,6 +165,7 @@ export default function Driver(props) {
                 zoom_level={12}
                 travel_mode="truck"
                 completedDest={completedDest}
+                isLoading={isLoading}
               />}
             </div>
             <div className="flex justify-center w-screen">

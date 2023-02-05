@@ -6,6 +6,7 @@ import CloseIcon from "@mui/icons-material/Close";
 
 const instance = axios.create({
     baseURL: BASE_URL,
+    headers:{"ngrok-skip-browser-warning": true}
 });
 
 export const AdminAPIs = {
