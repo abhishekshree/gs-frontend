@@ -96,30 +96,31 @@ export default function Start(props) {
     };
 
     return (
-        <>
-            <div className="container mx-auto px-4">
-                <div className="flex flex-wrap justify-center">
-                    <div className="w-full px-4">
+        <><div style={{height:"100vh", width:"100vw", backgroundColor:"#8da1b5"}}>
+            <div className="container h-full w-full mx-auto px-4 place-content-center" >
+                <div className="flex flex-wrap items-center justify-center place-content-center">
+                    <div className="w-full px-4 pt-32">
                         <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-200">
-                            <div className="flex-auto p-5 lg:p-10">
+                            <div className="flex-auto p-5 lg:p-10 items-center place-content-center" style={{padding:"auto"}}>
                                 {(!loading) &&
                                     <>
-                                        <h4 className="text-2xl font-semibold">
-                                            Start Journey
+
+                                        <h4 className="text-2xl font-semibold text-center uppercase" style={{margin:"auto" , width:"70%", paddingTop:"10px",paddingBottom:"10px", backgroundColor:"#445a70", color: "#dde5ed", borderRadius:"8px"}}>
+                                            Set Deliveries
                                         </h4>
-                                        <div className="relative w-full mb-3 mt-8">
-                                            <label htmlFor="formFile" className="block uppercase text-blueGray-600 text-xs font-bold mb-2">Drop Destinations File</label>
+                                        <div className="relative w-full mb-4 mt-8">
+                                            <label htmlFor="formFile" className="block uppercase text-blueGray-600 text-xs font-bold mb-2">Destinations File</label>
                                             <input className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" type="file" id="formFile"
                                                 onChange={handleFileChange}
                                             />
                                         </div>
 
-                                        <div className="relative w-full mb-3">
+                                        <div className="relative w-full mb-4">
                                             <label
                                                 className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
                                                 htmlFor="grid-password"
                                             >
-                                                No of Drives
+                                                No. of Drivers
                                             </label>
                                             <input
                                                 className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
@@ -128,7 +129,7 @@ export default function Start(props) {
                                             />
                                         </div>
 
-                                        <div className="relative w-full mb-3">
+                                        <div className="relative w-full mb-4">
                                             <label
                                                 className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
                                                 htmlFor="message"
@@ -145,7 +146,7 @@ export default function Start(props) {
                                         </div>
                                         <div className="text-center mt-6">
                                             <button
-                                                className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                                className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 hover:bg-teal-200 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                                 type="button"
                                                 onClick={handleUploadClick}
                                             >
@@ -175,6 +176,7 @@ export default function Start(props) {
                 </div>
                 <img src={require("assets/img/startingJourney.gif").default} alt="nope" width="100px" height="auto"/>
             </div>
+        </div>
         </>
     );
 }

@@ -40,7 +40,7 @@ export default function Login() {
                 <h1 className="text-5xl bold leading-normal mt-10 mb-0 text-blueGray-200 " style = {{
                   backgroundColor: "#000000", fontFamily: "Courier New", borderColor:"#446879", borderStyle: "solid", borderWidth: "7px",
                   outlineStyle:"solid", outlineWidth: "5px", outlineColor: "#779eb2", borderRadius: "10px", padding: "10px", textAlign: "center",
-                  background: "linear-gradient(60deg, 	#536872, #293c49 80%)"
+                  background: "linear-gradient(90deg, 	#536872, #293c49, #536872)"
                   }}>
                   <div style = {{fontWeight:"bold"}}>
                   GROW SIMPLEE
