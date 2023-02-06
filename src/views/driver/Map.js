@@ -10,19 +10,17 @@ function Map({ currLocation, deliveryLocation, destinations, zoom_level, travel_
     const mapElement = useRef();
     const [map, setMap] = useState(null); 
 
-    function handleMarkerClick(e){
-      setOpen("true");
-      setMarkerSelected(Number(e.target.id)); //setMarkerSelected(marker_id) TBD
-      setDestInfoSelected(destinations[Number(e.target.id)-1]);
-    }
+    function handleMarkerClick(){
+      setOpen(true);
+    } 
 
     function create_delivery_marker(location) {
+      console.log("location->",location)
         const marker_el = document.createElement("div");
         marker_el.className = 'marker-delivery';
-        marker_el.id = location.locationId?.toString();
-        marker_el.id=deliveryLocation.locationId
+        marker_el.id= 'marker-delivery'
         const popup = new tt.Popup({ offset: 20 }).setHTML(
-          `Location Number:${location.id}`
+          `Delivery Location`
         );
         const marker = new tt.Marker({ element: marker_el, anchor: "bottom" })
         .setLngLat([location.longitude, location.latitude])
@@ -35,6 +33,7 @@ function Map({ currLocation, deliveryLocation, destinations, zoom_level, travel_
     function create_driver_marker(location) {
       const marker_el = document.createElement("div");
       marker_el.className = 'marker-driver';
+      marker_el.id= 'marker-driver'
       const marker = new tt.Marker({ element: marker_el, anchor: "bottom" })
         .setLngLat([location.longitude, location.latitude])
         .addTo(map);
@@ -57,7 +56,7 @@ function Map({ currLocation, deliveryLocation, destinations, zoom_level, travel_
         ttservices.services.calculateRoute(routeOptions).then((response) => {
           var geojson = response.toGeoJson();
           map.addLayer({
-            id: "route" + deliveryLocation.locationId,
+            id: "route",
             type: "line",
             source: {
               type: "geojson",
@@ -83,11 +82,12 @@ function Map({ currLocation, deliveryLocation, destinations, zoom_level, travel_
     }
 
     const handleDeleteRoute = (routeId) => {
-      map?.removeLayer(["route" + routeId]);
-      document.getElementById(routeId?.toString())?.remove();
+      map?.removeLayer(["route"]);
+      document.getElementById("marker-delivery")?.remove();
+      document.getElementById("marker-driver")?.remove();
     }
     useEffect(() => {
-      if(completedDest.length>0)
+      if(completedDest.length>1)
         handleDeleteRoute(completedDest[completedDest.length-1]?.locationId)
     },[completedDest])
 
@@ -105,7 +105,6 @@ function Map({ currLocation, deliveryLocation, destinations, zoom_level, travel_
     }, []);
     
     useEffect(() => {
-      console.log("currLocation changed ->",currLocation)
         if (map && currLocation && deliveryLocation) {
           createRoute()
           create_driver_marker(currLocation,map)

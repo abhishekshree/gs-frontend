@@ -1,7 +1,9 @@
 /*eslint-disable*/
 import React from "react";
 import { Link, useParams } from "react-router-dom";
-
+import LocationOffIcon from '@mui/icons-material/LocationOff';
+import AddLocationIcon from '@mui/icons-material/AddLocation';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import NotificationDropdown from "components/Dropdowns/NotificationDropdown.js";
 import User from "components/Navbars/User.js";
 
@@ -52,7 +54,7 @@ export default function Sidebar({ openModal, setOpenModal }) {
                   <p
                     className="md:block text-left md:pb-2 text-blueGray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0"
                   >
-                    Admin:
+                    Admin: {id}
                   </p>
                 </div>
                 <div className="w-6/12 flex justify-end">
@@ -66,11 +68,6 @@ export default function Sidebar({ openModal, setOpenModal }) {
                 </div>
               </div>
             </div>
-            {/* Form */}
-
-            {/* Divider */}
-            {/* Heading */}
-            {/* Navigation */}
 
             <ul className="md:flex-col md:min-w-full flex flex-col list-none">
               <li className="items-center">
@@ -85,12 +82,12 @@ export default function Sidebar({ openModal, setOpenModal }) {
                 >
                   <i
                     className={
-                      "fas fa-tv mr-2 text-sm " +
+                      "mr-2 text-sm " +
                       (window.location.href.indexOf(`/admin/${id}/drivers`) !== -1
                         ? "opacity-75"
                         : "text-blueGray-300")
                     }
-                  ></i>{" "}
+                  ><AccountBoxIcon /></i>{" "}
                   Drivers
                 </Link>
               </li>
@@ -107,12 +104,12 @@ export default function Sidebar({ openModal, setOpenModal }) {
                 >
                   <i
                     className={
-                      "fas fa-tools mr-2 text-sm " +
+                      "mr-2 text-sm " +
                       (window.location.href.indexOf(`/admin/${id}/unrouted`) !== -1
                         ? "opacity-75"
                         : "text-blueGray-300")
                     }
-                  ></i>{" "}
+                  ><LocationOffIcon /></i>{" "}
                   Unrouted Points
                 </Link>
               </li>
@@ -129,12 +126,12 @@ export default function Sidebar({ openModal, setOpenModal }) {
                 >
                   <i
                     className={
-                      "fas fa-table mr-2 text-sm " +
+                      "mr-2 text-sm " +
                       (window.location.href.indexOf(`/admin/${id}/dynamic`) !== -1
                         ? "opacity-75"
                         : "text-blueGray-300")
                     }
-                  ></i>{" "}
+                  ><AddLocationIcon /></i>{" "}
                   Add New Destination
                 </Link>
               </li>

@@ -35,5 +35,13 @@ export const DriverAPIs = {
                 console.log(err);
                 return null
             }),
-    // putDeliveryCompleted
+    putDeliveryCompleted: (driverId) => 
+        instance
+            .post(`${BASE_URL}/post/driver/delivered`,{driver_id: driverId})
+            .then(responseBody)
+            .catch((err) => {
+                errorNotification("Failed to update delivery status",err.response?.data?.error)
+                console.log(err);
+                return null
+            })
 }

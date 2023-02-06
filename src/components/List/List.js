@@ -14,7 +14,7 @@ const List = ({ children, title, onDragEnd, name }) => {
         <Droppable droppableId={name}>
           {(provided, snapshot) => (
             <div ref={provided.innerRef} className="h-screen">
-              <div className="p-5 rounded-md min-h-max bg-yellow-50 mx-2 gap-y-3 flex flex-col h-screen">
+              <div className="p-5 rounded-md min-h-max mx-2 gap-y-3 flex flex-col h-screen">
                 {children}
                 {provided.placeholder}
               </div>

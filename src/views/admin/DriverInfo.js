@@ -9,6 +9,7 @@ import { useParams } from "react-router-dom";
 import { useStore } from "store/store.js";
 import Map from "views/admin/Map.js";
 
+
 export default function DriverInfo() {
   const { allDriverDestinations, setAllDriverDestinations } = useStore();
 
@@ -19,6 +20,7 @@ export default function DriverInfo() {
   const [openTab, setOpenTab] = useState(1);
   const [destinations, setDestinations] = useState([]); //current driver destinations
   const [items, setItems] = useState([]); //list items
+  const [completedDest, setCompletedDest] = useState([]); //completed destinations
   const [currLocation, setCurrLocatoin] = useState({ latitude: 12.9140182, longitude: 77.5747463 });
 
   const [open, setOpen] = useState(false); //swipeable edge drawer open
@@ -26,16 +28,32 @@ export default function DriverInfo() {
   const [selectedDestInfo, setSelectedDestInfo] = useState({}); //selected destination info
 
   useEffect(() => {
-    console.log("did ->",dId)
     async function getDriverPath(){
         const res = await DriverAPIs.getDriverPath(dId)
-        setDestinations(res.map((dest,i) => {
+        if (!res) {
+          return;
+        }
+        let completed = [],notCompleted = [];
+        for (let i = 0; i < res.length; i++) {
+          if (res[i].delivered === true) {
+            completed.push(res[i]);
+          } else {
+            notCompleted.push(res[i]);
+          }
+        }
+        setCompletedDest(completed)
+        setDestinations(notCompleted.map((dest,i) => {
             return({
                 ...dest,
                 id: i+1
             })
         }))
-        setItems(res)
+        setItems(notCompleted.map((dest,i) => {
+          return({
+              ...dest,
+              id: i+1
+          })
+        }))
         }
     getDriverPath()
   },[dId])

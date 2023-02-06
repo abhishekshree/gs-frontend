@@ -3,6 +3,7 @@ import { DriverAPIs } from "API/driver.js";
 import { successNotification } from "components/alerts/Alerts";
 import React from "react";
 import { useState } from 'react';
+import { useParams } from "react-router";
 
 
 const getDriverIndex = (driverId) => {
@@ -12,7 +13,7 @@ const getDriverIndex = (driverId) => {
 }
 
 export default function OTPModal({showOTPModal,setShowOTPModal,destinations,setDestinations,deliveryLocation,setDeliveryLocation,completedDest,setCompletedDest,userId,getDriverDestinations}){
-
+    const dId = useParams();
     const [OTP,setOTP] = useState("");
     const handleChangeOTP = (e) => {
         setOTP(e.target.value)
@@ -25,9 +26,15 @@ export default function OTPModal({showOTPModal,setShowOTPModal,destinations,setD
 
     const handleSubmitOTP = async () => {
         //post request to submit OTP
-        const res = await DriverAPIs.verifyOTP(OTP)
+        let res = await DriverAPIs.verifyOTP(OTP)
         if(!res){
             console.log("Invalid OTP \n Re-enter correct OTP")
+            setOTP("")
+            return;
+        }
+        res = await DriverAPIs.putDeliveryCompleted(dId)
+        if(!res){
+            console.log("Delivery Update Failed \n Try again")
             setOTP("")
             return;
         }
@@ -45,6 +52,7 @@ export default function OTPModal({showOTPModal,setShowOTPModal,destinations,setD
         // ------------------
 
         getDriverDestinations(userId)
+        setShowOTPModal(false)   
     }
 
     return (
@@ -64,8 +72,8 @@ export default function OTPModal({showOTPModal,setShowOTPModal,destinations,setD
                             className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
                             onClick={() => setShowOTPModal(false)}
                         >
-                            <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
-                                ×
+                            <span className="bg-blueGray-900 text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
+                                <p className="text-base font-light leading-relaxed mt-0 mb-4 text-lightBlue-800">close</p>
                             </span>
                         </button>
                         </div>

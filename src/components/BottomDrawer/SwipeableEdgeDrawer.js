@@ -31,8 +31,6 @@ const Puller = styled(Box)(({ theme }) => ({
 }));
 
 export default function SwipeableEdgeDrawer({open,setOpen,markerSelected, selectedDestInfo}) {
-  // const [open, setOpen] = React.useState(false);
-
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
   };
@@ -76,7 +74,7 @@ export default function SwipeableEdgeDrawer({open,setOpen,markerSelected, select
           }}
         >
           <Puller />
-          <Typography sx={{ p: 2, color: 'text.secondary' }}> Info on selected destination </Typography>
+          <Typography sx={{ p: 2, color: 'text.secondary' }}> Next Destination</Typography>
         </StyledBox>
         <StyledBox
           sx={{
