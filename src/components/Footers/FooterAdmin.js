@@ -11,28 +11,9 @@ export default function FooterAdmin() {
               <div className="text-sm text-blueGray-500 font-semibold py-1 text-center md:text-left">
               © {new Date().getFullYear()}{" "} Grow Simplee. 
                 
-                  All rights reserved
+                  Inter IIT Tech Meet 11.0
                 
               </div>
-            </div>
-            <div className="w-full md:w-8/12 px-4">
-              <ul className="flex flex-wrap list-none md:justify-end  justify-center">
-                <li>
-                  Contact Us &nbsp;: &nbsp;
-
-                </li>
-                <li>
-                  
-                   
-                 
-                </li>
-                <li>
-                business@growsimplee.com | +91 8050457469 
-                </li>
-                <li>
-                  
-                </li>
-              </ul>
             </div>
           </div>
         </div>

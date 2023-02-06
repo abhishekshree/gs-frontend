@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { AdminAPIs } from "API/admin.js";
 import { useHistory } from "react-router-dom";
-import { Box } from "@mui/material"
-import FooterAdmin from "components/Footers/FooterAdmin.js"
 
 export default function Login() {
   const history = useHistory();
@@ -126,7 +124,7 @@ export default function Login() {
             </div>
             
           </div>
-          <div style={{position:"absolute", bottom:"0px",backgroundColor:"#000000" ,width:"100vw"}}><FooterAdmin></FooterAdmin></div>
+          {/* <div style={{position:"absolute", bottom:"0px",backgroundColor:"#000000" ,width:"100vw"}}><FooterAdmin></FooterAdmin></div> */}
         </section>
       </main>
     </>

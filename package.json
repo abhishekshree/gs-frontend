@@ -1,8 +1,8 @@
 {
-  "name": "notus-react",
+  "name": "grow-simplee",
   "version": "1.1.0",
-  "description": "Notus React - A free Tailwind CSS and React UI Kit and Admin by Creative Tim.",
-  "repository": "https://github.com/creativetimofficial/notus-react",
+  "description": "Grow Simplee High Prep PS",
+  "repository": "",
   "license": "MIT",
   "dependencies": {
     "@emotion/react": "^11.10.5",

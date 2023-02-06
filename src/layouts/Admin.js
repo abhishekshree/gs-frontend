@@ -1,12 +1,12 @@
 import React from "react";
-import { Router, Switch, Route, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useEffect } from 'react';
 import { Box,Modal } from "@mui/material"
 // components
 
 import AdminNavbar from "components/Navbars/AdminNavbar.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
-import FooterAdmin from "components/Footers/FooterAdmin.js";
+// import FooterAdmin from "components/Footers/FooterAdmin.js";
 
 // views
 
