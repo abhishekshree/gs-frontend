@@ -9,13 +9,17 @@ export default function UnroutedList({deliveryLocations}){
             }
             {
                 deliveryLocations.length === 0 &&
-                <h2 className="text-5xl font-normal leading-normal mt-0 mb-2 text-blueGray-800 text-center">
+                <div>
                     <img 
                         alt="" 
                         // src={require("assets/img/All-Good.gif").default}
+                        src="https://i.ibb.co/nnHZYNh/All-Good.gif"
+                        className="w-1/2 mx-auto mt-6"
                     />
-                    No Unrouted Points
-                </h2>
+                    <h2 className="text-5xl font-bold leading-normal mt-0 mb-2 text-blueGray-800 text-center">
+                        No Unrouted Points
+                    </h2>
+                </div>
             }
         </div>
     )

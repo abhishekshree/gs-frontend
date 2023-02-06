@@ -76,7 +76,7 @@ export default function Start(props) {
             return
         }
         // -------------------------------------
-        setUnroutedPoints(startRes.unrouted_points)
+        setUnroutedPoints(startRes.Unrouted_points)
         // const tempAllDriverDestinations = allDriverDestinations;
         // const thisAdminDriverDest = {};
         // for (let i = 0; i < startRes.Routes.length; i++) {
@@ -100,7 +100,7 @@ export default function Start(props) {
             <div className="container h-full w-full mx-auto px-4 place-content-center" >
                 <div className="flex flex-wrap items-center justify-center place-content-center">
                     <div className="w-full px-4 pt-32">
-                        <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-200">
+                        <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-white">
                             <div className="flex-auto p-5 lg:p-10 items-center place-content-center" style={{padding:"auto"}}>
                                 {(!loading) &&
                                     <>
@@ -158,13 +158,14 @@ export default function Start(props) {
                                 {
                                     (loading) && (
                                         <>
-                                            <Loading />
+                                            {/* <Loading /> */}
+                                            <img src="https://i.ibb.co/wLZTByr/delivery-loader.gif" alt="loading" className="w-1/2 mx-auto"/>
                                             <div className={succInputMsg}>
-                                                <p className="text-base font-light leading-relaxed mt-0 mb-4 text-blueGray-800 ">
-                                                    Input Successful!
-                                                </p>
-                                                <p className="text-lg font-light leading-relaxed mt-6 mb-4 text-red-800">
+                                                <p className="text-center">
+                                                    Input Successful! &nbsp;
+                                                <span className="text-lg font-bold leading-relaxed mt-6 mb-4 text-red-800">
                                                     Waiting for the driver information
+                                                </span>
                                                 </p>
                                             </div>
                                         </>
@@ -174,7 +175,6 @@ export default function Start(props) {
                         </div>
                     </div>
                 </div>
-                <img src={require("assets/img/startingJourney.gif").default} alt="nope" width="100px" height="auto"/>
             </div>
         </div>
         </>
