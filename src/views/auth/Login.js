@@ -8,6 +8,7 @@ export default function Login() {
   const history = useHistory();
   const [role, setRole] = useState("admin");
   const [userId, setUserId] = useState(0);
+  const [newAdminId, setNewAdminId] = useState(0);
   const [showCredentials, setShowCredentials] = useState("hidden");
   const handleSelectRole = (e) => {
     setRole(e.target.value);
@@ -23,6 +24,7 @@ export default function Login() {
     if (res) {
       setRole("admin");
       setUserId(res?.id);
+      setNewAdminId(res?.id);
       setShowCredentials("block");
     }
   };
@@ -110,7 +112,7 @@ export default function Login() {
                               credentials:
                             </p>
                             <p className="text-lg font-light leading-relaxed mt-6 mb-4 text-red-800">
-                              Admin Id : {userId}
+                              Admin Id : {newAdminId}
                             </p>
                           </div>
                         </div>
