@@ -175,6 +175,7 @@ export default function Start(props) {
                         </div>
                     </div>
                 </div>
+                {/* <img src={require("assets/img/startingJourney.gif").default} alt="nope" width="100px" height="auto"/> */}
             </div>
         </div>
         </>

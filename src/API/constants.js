@@ -1,4 +1,4 @@
-export const BASE_URL = "http://localhost:5050";
+export const BASE_URL = "https://484d-14-139-38-107.in.ngrok.io/";
 
 export const SERVER_ERROR = "Aw, Snap! Server maybe down.";
 

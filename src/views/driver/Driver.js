@@ -80,6 +80,7 @@ export default function Driver(props) {
       setDeliveryLocation(notCompleted[0]);
     setIsLoading(false);
     console.log(notCompleted[0])
+    console.log(completed[completed.length-1])
   };
 
   useEffect(() => {
