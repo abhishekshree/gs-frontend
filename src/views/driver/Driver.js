@@ -29,7 +29,9 @@ export default function Driver(props) {
   const [openTab, setOpenTab] = React.useState(1);
   const { id } = useParams();
   const userId = id;
+
   const adminId = getAdminFromDriverId(userId);
+  
   const [currLocation, setCurrLocation] = useState(null);
   const [deliveryLocation,setDeliveryLocation] = useState(null);
   const [showOTPModal, setShowOTPModal] = React.useState(false);

@@ -11,6 +11,7 @@ export default function AdminRouter(props){
     const userId = id;
 
     useEffect(() => {
+        console.log(dayStarted)
         const getDayStarted = async () => {
             const adminDayStarted = await AdminAPIs?.getAdminDayStarted();
             console.log(adminDayStarted);

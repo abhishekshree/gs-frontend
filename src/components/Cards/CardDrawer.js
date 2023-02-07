@@ -19,7 +19,7 @@ export default function CardDrawer({props}) {
       <div className=" h-full w-full mr-2 rounded-2xl ">
         <div className="divide-y8 divide-solid">
             <div className="flex justify-between mb-6 divide-x">
-              <span className="font-bold">{"Estimated Delivery Time \n" + secondsToHms(props?.EDT)}</span>
+              <span className="font-bold">{"Estimated Delivery Time\n : " + secondsToHms(props?.EDT)}</span>
               <span className="rounded-full p-2 shadow-lg font-bold" style={{backgroundImage: "linear-gradient(#fcb900,#daa003)"}}>{props?.pickup ? "Pickup" : "Delivery"}</span>
             </div>
             <div className="rounded-lg">

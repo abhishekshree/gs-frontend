@@ -13,7 +13,7 @@ import Map from "views/admin/Map.js";
 export default function DriverInfo() {
   const { allDriverDestinations, setAllDriverDestinations } = useStore();
 
-  const { id,dId } = useParams();
+  const { id, dId } = useParams();
   const userId = id;
   const driverId = dId;
 
@@ -21,42 +21,45 @@ export default function DriverInfo() {
   const [destinations, setDestinations] = useState([]); //current driver destinations
   const [items, setItems] = useState([]); //list items
   const [completedDest, setCompletedDest] = useState([]); //completed destinations
-  const [currLocation, setCurrLocatoin] = useState({ latitude: 12.9140182, longitude: 77.5747463 });
-
+  const [currLocation, setCurrLocatoin] = useState(null);
+  const [isLoading,setIsLoading] = useState(true);
   const [open, setOpen] = useState(false); //swipeable edge drawer open
   const [markerSelected, setMarkerSelected] = useState(0); //marker selected in the map
   const [selectedDestInfo, setSelectedDestInfo] = useState({}); //selected destination info
 
   useEffect(() => {
-    async function getDriverPath(){
-        const res = await DriverAPIs.getDriverPath(dId)
-        if (!res) {
-          return;
+    async function getDriverPath() {
+      setIsLoading(true);
+      const res = await DriverAPIs.getDriverPath(dId)
+      if (!res) {
+        return;
+      }
+      let completed = [], notCompleted = [];
+      for (let i = 0; i < res.length; i++) {
+        if (res[i].delivered === true) {
+          completed.push(res[i]);
+        } else {
+          notCompleted.push(res[i]);
         }
-        let completed = [],notCompleted = [];
-        for (let i = 0; i < res.length; i++) {
-          if (res[i].delivered === true) {
-            completed.push(res[i]);
-          } else {
-            notCompleted.push(res[i]);
-          }
-        }
-        setCompletedDest(completed)
-        setDestinations(notCompleted.map((dest,i) => {
-            return({
-                ...dest,
-                id: i+1
-            })
-        }))
-        setItems(notCompleted.map((dest,i) => {
-          return({
-              ...dest,
-              id: i+1
-          })
-        }))
-        }
+      }
+      setCompletedDest(completed)
+      setCurrLocatoin(completed[completed.length - 1])
+      setDestinations(notCompleted.map((dest, i) => {
+        return ({
+          ...dest,
+          id: i + 1
+        })
+      }))
+      setItems(notCompleted.map((dest, i) => {
+        return ({
+          ...dest,
+          id: i + 1
+        })
+      }))
+      setIsLoading(false);
+    }
     getDriverPath()
-  },[dId])
+  }, [dId])
 
   return (
     <>
@@ -111,7 +114,7 @@ export default function DriverInfo() {
             <div className="px-4 py-5 flex-auto">
               <div className="tab-content tab-space">
                 <div className={openTab === 1 ? "block" : "hidden"} id="link1">
-                  {destinations?.length > 0 &&
+                  {(!isLoading) &&
                     (<Map
                       currLocation={currLocation}
                       destinations={destinations}

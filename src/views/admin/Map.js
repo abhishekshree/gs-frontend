@@ -5,14 +5,14 @@ import { api_key } from "constants.js";
 import { useEffect, useRef, useState } from "react";
 import "../../App.css";
 
-function Map({ currLocation, destinations, zoom_level, travel_mode,setOpen,setMarkerSelected,setDestInfoSelected }) {
+function Map({ currLocation, destinations, zoom_level, travel_mode,setOpen,setMarkerSelected,setSelectedDestInfo }) {
   const mapElement = useRef();
   const [map, setMap] = useState(null);
   
   function handleMarkerClick(e){
-    setOpen("true");
     setMarkerSelected(Number(e.target.id)); //setMarkerSelected(marker_id) TBD
-    setDestInfoSelected(destinations[Number(e.target.id)-1]);
+    setSelectedDestInfo(destinations[Number(e.target.id)-1]);
+    setOpen("true");
   }
   
 
@@ -69,7 +69,6 @@ function Map({ currLocation, destinations, zoom_level, travel_mode,setOpen,setMa
               "line-dasharray": [1, 0, 1, 0],
             }
           });
-          // console.log(routeLayer);
           routeLayer.on('click', (e) => {
             routeLayer.setPaintProperty('line-color', 'blue');
             // console.log('Layer clicked at:', e);
@@ -93,6 +92,7 @@ function Map({ currLocation, destinations, zoom_level, travel_mode,setOpen,setMa
 
   useEffect(() => {
     if (map) {
+      create_driver_marker(currLocation);
       map.on("load", () => {
         destinations.forEach((location) => {
           create_delivery_marker(location);
@@ -111,7 +111,7 @@ function Map({ currLocation, destinations, zoom_level, travel_mode,setOpen,setMa
     else {
       console.log("error loading map"); //Add better error handling function
     }
-  },[map]);
+  },[map,currLocation]);
 
   return (
     <div className="map_wrapper">
