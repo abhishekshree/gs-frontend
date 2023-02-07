@@ -1,8 +1,8 @@
 import { AdminAPIs } from "API/admin.js";
-import Loading from "components/Loading/loading.js";
 import { useHistory, useParams } from "react-router-dom";
 import startRes from "assets/input.json"; //harcoded response to be removed
-import { errorNotification } from "components/alerts/Alerts.js";
+import { errorNotification,successNotification } from "components/alerts/Alerts.js";
+
 import  { useState } from "react";
 import { useStore } from "store/store.js";
 
@@ -91,6 +91,7 @@ export default function Start(props) {
         setDayStarted(temp);
 
         setLoading(false);
+        successNotification("Successfully Started Journey","");
         const redirectUrl = "/admin/" + userId.toString() + "/drivers" //to be removed
         history.replace(redirectUrl)
     };

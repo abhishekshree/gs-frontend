@@ -22,6 +22,7 @@ export default function OTPModal({showOTPModal,setShowOTPModal,destinations,setD
     const generateOTP = async () => {
         await DriverAPIs.generateOTP()
         console.log("new OTP generated")
+        successNotification("new OTP Generated")
     }
 
     const handleSubmitOTP = async () => {

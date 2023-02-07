@@ -1,4 +1,5 @@
 import { AdminAPIs } from "API/admin.js";
+import { successNotification } from "components/alerts/Alerts";
 import { useForm } from "react-hook-form";
 import { useStore } from "store/store.js";
 
@@ -12,11 +13,11 @@ export default function DynamicPoint({ adminId }) {
             ...data
         }
         console.log(reqData)
-        const res = await AdminAPIs.postAdminDynamicPoints(reqData);
-        
+        const res = await AdminAPIs.postAdminDynamicPoints(reqData);       
         if (!res) {
             return;
         }
+        successNotification("Successfully Added New Destination", "");
     }
     return (
         <div className="opacity-0 relative inset-0">

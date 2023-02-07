@@ -1,6 +1,7 @@
 import React from "react"
 import { AdminAPIs } from "API/admin.js"
 import { useParams,useHistory } from "react-router-dom"
+import { successNotification } from "components/alerts/Alerts"
 
 export default function Confirmation({openModal,setOpenModal}) {
     const history = useHistory()
@@ -9,11 +10,12 @@ export default function Confirmation({openModal,setOpenModal}) {
     const handleYes = () => {
         const res = AdminAPIs.postDayEnd(id)
         if(!res)
-        return
+            return
         if(window!==undefined){
             console.log("clearing local storage")
             window.localStorage.clear();
         }
+        successNotification("Successfully Ended Journey","")
         history.replace(`/`)
     }
     const handleNo = () => {

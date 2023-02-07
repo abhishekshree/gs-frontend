@@ -17,13 +17,9 @@ import Confirmation from "components/modals/Confirmation";
 // import Settings from "views/admin/Settings.js";
 
 export default function Admin() {
-    const { id, page } = useParams();
+    const { page } = useParams();
     const [openModal, setOpenModal] = React.useState(false);
     const handleCloseModal = () => setOpenModal(false);
-    useEffect(() => {
-        console.log(id)
-        console.log(page)
-    }, []);
     return (
         <>
             <Sidebar openModal={openModal} setOpenModal={setOpenModal}/>

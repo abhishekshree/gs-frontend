@@ -7,6 +7,7 @@ import {
 import { useState,useEffect } from "react";
 import { AdminAPIs } from "API/admin.js";
 import DeleteIcon from '@mui/icons-material/Delete';
+import { successNotification } from "components/alerts/Alerts.js";
 
 const DraggableList = ({items,setItems,destinations,setDestinations,allDriverDestinations,setAllDriverDestinations,adminId,driverId}) => {
     const [buttonMode, setButtonMode] = useState("Edit");
@@ -59,10 +60,16 @@ const DraggableList = ({items,setItems,destinations,setDestinations,allDriverDes
             // temp[adminId][driverId] = items;
             // setAllDriverDestinations(temp);
             // setDestinations(items)
+            successNotification("Route Changed Successfully")
             console.log("driverId: ",driverId)
             console.log("adminId ->",adminId)  
         }
         setButtonMode(buttonMode === "Edit" ? "Done" : "Edit");
+    }
+
+    const handleCancel = () => {
+        setItems(destinations);
+        setButtonMode("Edit");
     }
 
     const handleDelete = (e) => {
@@ -75,10 +82,6 @@ const DraggableList = ({items,setItems,destinations,setDestinations,allDriverDes
         setItems(listCopy);
         console.log(items)
     }
-    
-    useEffect(() => {
-        console.log("change was noticed")
-    },[items])
 
     return (
         <>
@@ -87,38 +90,46 @@ const DraggableList = ({items,setItems,destinations,setDestinations,allDriverDes
                     <button className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onClick={handleClickButton}>
                         {buttonMode}
                     </button>
+                    { buttonMode === "Done" &&
+                        <button className="bg-red-500 text-white active:bg-red-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onClick={handleCancel}>
+                            Cancel
+                        </button>
+                    }
                 </div>
                 <List title="List of Destinations" onDragEnd={onDragEnd} name="available">
                     {items?.map((item, index) => {
                         return(
-                        <>
-                            <Draggable key={item.id} draggableId={item.id + ""} index={index} isDragDisabled={buttonMode === "Edit"? true : false}>
-                                {(
-                                    provided,
-                                    snapshot
-                                ) => (
-                                    <div>
-                                        <div
-                                            ref={provided.innerRef}
-                                            {...provided.draggableProps}
-                                            {...provided.dragHandleProps}
-                                        >
-                                            <CardDestination 
-                                                props={item}
-                                                handleDelete={handleDelete}
-                                                buttonMode={buttonMode}
-                                                index={index}
-                                            />
+                            <div className="bg-blueGray-100 rounded-lg p-4">
+                                <h5 className="text-lg font-normal leading-normal mt-0 mb-2 text-blueGray-500">
+                                    Destination {index+1} :
+                                </h5>
+                                <Draggable key={item.id} draggableId={item.id + ""} index={index} isDragDisabled={buttonMode === "Edit"? true : false}>
+                                    {(
+                                        provided,
+                                        snapshot
+                                    ) => (
+                                        <div>
+                                            <div
+                                                ref={provided.innerRef}
+                                                {...provided.draggableProps}
+                                                {...provided.dragHandleProps}
+                                            >
+                                                <CardDestination 
+                                                    props={item}
+                                                    handleDelete={handleDelete}
+                                                    buttonMode={buttonMode}
+                                                    index={index}
+                                                />
+                                            </div>
                                         </div>
-                                    </div>
-                                )}
-                            </Draggable>
-                            <div className={"p-1 flex justify-content-end "+ (buttonMode === "Edit" ? "hidden" : "block")}>
-                                <button onClick={(e) => handleDelete(e)} id={index}>
-                                    <DeleteIcon />
-                                </button>
+                                    )}
+                                </Draggable>
+                                <div className={"p-1 flex justify-content-end "+ (buttonMode === "Edit" ? "hidden" : "block")}>
+                                    <button onClick={(e) => handleDelete(e)} id={index}>
+                                        <DeleteIcon />
+                                    </button>
+                                </div>
                             </div>
-                        </>
                     )})}
                 </List>
             </DragDropContext>

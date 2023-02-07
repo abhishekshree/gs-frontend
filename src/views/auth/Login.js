@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AdminAPIs } from "API/admin.js";
 import { useHistory } from "react-router-dom";
 

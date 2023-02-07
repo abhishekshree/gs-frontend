@@ -1,7 +1,6 @@
 import { BASE_URL , responseBody } from "API/constants.js"
 import axios from "axios";
 import { errorNotification } from "components/alerts/Alerts.js";
-import { showNotification } from "@mantine/notifications";
 import CloseIcon from "@mui/icons-material/Close";
 
 const instance = axios.create({
@@ -32,7 +31,7 @@ export const AdminAPIs = {
             .get(`${BASE_URL}/get/admin/dayStarted`)
             .then(responseBody)
             .catch((err) => {
-                errorNotification("Failed to fetch info on variable adminDayStarted",err.response?.data?.error)
+                errorNotification("Failed to get info on day started by admin",err.response?.data?.error)
                 console.log(err)
             }),
     getAdminDrivers: (adminId) =>
@@ -48,7 +47,7 @@ export const AdminAPIs = {
             .get(`${BASE_URL}/get/admin/output?admin_id=${adminId}`)
             .then(responseBody)
             .catch((err) => {
-                errorNotification("Failed to fetch admin output",err.response?.data?.error)
+                errorNotification("Failed to fetch new destinations for all drivers",err.response?.data?.error)
                 console.log(err);
             }),
     getStartMap: () =>
@@ -67,15 +66,7 @@ export const AdminAPIs = {
                 return res?.data
             })
             .catch((err) => {
-                // errorNotification("Error in posting input",err?.message)
-                const title = "Error in posting input";
-                const message = err?.message;
-                showNotification({
-                    title,
-                    message,
-                    color: "red",
-                    icon: <CloseIcon />,
-                })
+                errorNotification("Error in posting input",err?.message)
                 console.log(err)
                 return null
             }),
@@ -87,7 +78,7 @@ export const AdminAPIs = {
                 return res?.data
             })
             .catch((err) => {
-                errorNotification("Failed to start admin",err.response?.data?.error)
+                errorNotification("Failed to start day \n Please try again",err.response?.data?.error)
                 console.log(err);
                 return null
             }),
@@ -96,7 +87,7 @@ export const AdminAPIs = {
             .post(`${BASE_URL}/post/driver/reorder`, {driver_id: driverId, items: items})
             .then(responseBody)
             .catch((err) => {
-                errorNotification("Failed to change the route",err.response?.data?.error)
+                errorNotification("Failed updating route",err.response?.data?.error)
                 console.log(err);
                 return null
             }),
