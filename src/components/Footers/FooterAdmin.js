@@ -12,7 +12,7 @@ export default function FooterAdmin() {
               © {new Date().getFullYear()}{" "} Grow Simplee. 
                 
                   Inter IIT Tech Meet 11.0
-                
+  
               </div>
             </div>
           </div>

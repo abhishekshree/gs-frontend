@@ -30,16 +30,6 @@ export default function Drivers() {
       console.log(temp)
     }
     getDrivers()
-    console.log("hi")
-    // --- Hardcoding ---
-    // const drivers = Object.keys(startRes["Routes"].map((_,index) => userId?.toString()+"_"+index.toString()))
-    // setDrivers(drivers)
-    //   const temp = drivers.map((driverId) => {
-    //     return ({ driverId: driverId })
-    // })
-    // setDriverInfo(temp)
-    // ------------------
-
   }, []);
 
   return (
