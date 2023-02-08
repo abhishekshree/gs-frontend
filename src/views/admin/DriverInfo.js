@@ -1,14 +1,13 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import FeaturedPlayListIcon from '@mui/icons-material/FeaturedPlayList';
 import MapIcon from '@mui/icons-material/Map';
-import { DriverAPIs } from "API/driver.js";
-import SwipeableEdgeDrawer from "components/BottomDrawer/SwipeableEdgeDrawer.js";
-import DraggableList from "components/List/DraggableList.js";
-import { useParams } from "react-router-dom";
-import { useStore } from "store/store.js";
-import Map from "views/admin/Map.js";
-
+import { DriverAPIs } from 'API/driver.js';
+import SwipeableEdgeDrawer from 'components/BottomDrawer/SwipeableEdgeDrawer.js';
+import DraggableList from 'components/List/DraggableList.js';
+import { useParams } from 'react-router-dom';
+import { useStore } from 'store/store.js';
+import Map from 'views/admin/Map.js';
 
 export default function DriverInfo() {
   const { allDriverDestinations, setAllDriverDestinations } = useStore();
@@ -18,48 +17,45 @@ export default function DriverInfo() {
   const driverId = dId;
 
   const [openTab, setOpenTab] = useState(1);
-  const [destinations, setDestinations] = useState([]); //current driver destinations
-  const [items, setItems] = useState([]); //list items
-  const [completedDest, setCompletedDest] = useState([]); //completed destinations
+  const [destinations, setDestinations] = useState([]); // current driver destinations
+  const [items, setItems] = useState([]); // list items
+  const [setCompletedDest] = useState([]); // completed destinations
   const [currLocation, setCurrLocatoin] = useState(null);
-  const [isLoading,setIsLoading] = useState(true);
-  const [open, setOpen] = useState(false); //swipeable edge drawer open
-  const [markerSelected, setMarkerSelected] = useState(0); //marker selected in the map
-  const [selectedDestInfo, setSelectedDestInfo] = useState({}); //selected destination info
+  const [isLoading, setIsLoading] = useState(true);
+  const [open, setOpen] = useState(false); // swipeable edge drawer open
+  const [markerSelected, setMarkerSelected] = useState(0); // marker selected in the map
+  const [selectedDestInfo, setSelectedDestInfo] = useState({}); // selected destination info
 
   useEffect(() => {
     async function getDriverPath() {
       setIsLoading(true);
-      const res = await DriverAPIs.getDriverPath(dId)
+      const res = await DriverAPIs.getDriverPath(dId);
       if (!res) {
         return;
       }
-      let completed = [], notCompleted = [];
-      for (let i = 0; i < res.length; i++) {
+      const completed = []; const
+        notCompleted = [];
+      for (let i = 0; i < res.length; i += 1) {
         if (res[i].delivered === true) {
           completed.push(res[i]);
         } else {
           notCompleted.push(res[i]);
         }
       }
-      setCompletedDest(completed)
-      setCurrLocatoin(completed[completed.length - 1])
-      setDestinations(notCompleted.map((dest, i) => {
-        return ({
-          ...dest,
-          id: i + 1
-        })
-      }))
-      setItems(notCompleted.map((dest, i) => {
-        return ({
-          ...dest,
-          id: i + 1
-        })
-      }))
+      setCompletedDest(completed);
+      setCurrLocatoin(completed[completed.length - 1]);
+      setDestinations(notCompleted.map((dest, i) => ({
+        ...dest,
+        id: i + 1,
+      })));
+      setItems(notCompleted.map((dest, i) => ({
+        ...dest,
+        id: i + 1,
+      })));
       setIsLoading(false);
     }
-    getDriverPath()
-  }, [dId])
+    getDriverPath();
+  }, [dId]);
 
   return (
     <>
@@ -72,12 +68,12 @@ export default function DriverInfo() {
             <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
               <a
                 className={
-                  "text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal " +
-                  (openTab === 1
-                    ? "text-white bg-lightBlue-600"
-                    : "text-lightBlue-600 bg-white")
+                  `text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal ${
+                    openTab === 1
+                      ? 'text-white bg-lightBlue-600'
+                      : 'text-lightBlue-600 bg-white'}`
                 }
-                onClick={e => {
+                onClick={(e) => {
                   e.preventDefault();
                   setOpenTab(1);
                 }}
@@ -85,18 +81,20 @@ export default function DriverInfo() {
                 href="#link2"
                 role="tablist"
               >
-                <MapIcon /> Map
+                <MapIcon />
+                {' '}
+                Map
               </a>
             </li>
             <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
               <a
                 className={
-                  "text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal " +
-                  (openTab === 2
-                    ? "text-white bg-lightBlue-600"
-                    : "text-lightBlue-600 bg-white")
+                  `text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal ${
+                    openTab === 2
+                      ? 'text-white bg-lightBlue-600'
+                      : 'text-lightBlue-600 bg-white'}`
                 }
-                onClick={e => {
+                onClick={(e) => {
                   e.preventDefault();
                   setOpenTab(2);
                 }}
@@ -104,7 +102,9 @@ export default function DriverInfo() {
                 href="#link3"
                 role="tablist"
               >
-                <FeaturedPlayListIcon />  Destinations
+                <FeaturedPlayListIcon />
+                {' '}
+                Destinations
               </a>
             </li>
           </ul>
@@ -113,9 +113,10 @@ export default function DriverInfo() {
           <div className="relative flex flex-col min-w-0 break-words bg-white w-full shadow-lg rounded">
             <div className="px-4 py-5 flex-auto">
               <div className="tab-content tab-space">
-                <div className={openTab === 1 ? "block" : "hidden"} id="link1">
-                  {(!isLoading) &&
-                    (<Map
+                <div className={openTab === 1 ? 'block' : 'hidden'} id="link1">
+                  {(!isLoading)
+                    && (
+                    <Map
                       currLocation={currLocation}
                       destinations={destinations}
                       zoom_level={12}
@@ -123,12 +124,13 @@ export default function DriverInfo() {
                       setOpen={setOpen}
                       setMarkerSelected={setMarkerSelected}
                       setSelectedDestInfo={setSelectedDestInfo}
-                    />)
-                  }
+                    />
+                    )}
                 </div>
-                <div className={openTab === 2 ? "block" : "hidden"} id="link2">
+                <div className={openTab === 2 ? 'block' : 'hidden'} id="link2">
                   {
-                    items?.length > 0 &&
+                    items?.length > 0
+                    && (
                     <DraggableList
                       destinations={destinations}
                       setDestinations={setDestinations}
@@ -139,6 +141,7 @@ export default function DriverInfo() {
                       adminId={userId}
                       driverId={driverId}
                     />
+                    )
                   }
                 </div>
               </div>
@@ -146,7 +149,13 @@ export default function DriverInfo() {
           </div>
         </div>
       </div>
-      <SwipeableEdgeDrawer open={open} setOpen={setOpen} markerSelected={markerSelected} setMarkerSelected={setMarkerSelected} selectedDestInfo={selectedDestInfo} />
+      <SwipeableEdgeDrawer
+        open={open}
+        setOpen={setOpen}
+        markerSelected={markerSelected}
+        setMarkerSelected={setMarkerSelected}
+        selectedDestInfo={selectedDestInfo}
+      />
     </>
   );
 }

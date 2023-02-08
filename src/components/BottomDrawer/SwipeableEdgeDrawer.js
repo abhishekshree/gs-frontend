@@ -30,7 +30,9 @@ const Puller = styled(Box)(({ theme }) => ({
   left: 'calc(50% - 15px)',
 }));
 
-export default function SwipeableEdgeDrawer({open,setOpen,markerSelected, selectedDestInfo}) {
+export default function SwipeableEdgeDrawer({
+  open, setOpen, markerSelected, selectedDestInfo,
+}) {
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
   };
@@ -46,7 +48,7 @@ export default function SwipeableEdgeDrawer({open,setOpen,markerSelected, select
             overflow: 'visible',
             '@media (max-width: 576px)': {
               width: '100%',
-            }
+            },
           },
         }}
       />
@@ -60,7 +62,7 @@ export default function SwipeableEdgeDrawer({open,setOpen,markerSelected, select
         ModalProps={{
           keepMounted: true,
         }}
-        sx={{display:(markerSelected>0 ? 'block':'none')}} //true if markerSelected>0
+        sx={{ display: (markerSelected > 0 ? 'block' : 'none') }} // true if markerSelected>0
       >
         <StyledBox
           sx={{
@@ -85,7 +87,7 @@ export default function SwipeableEdgeDrawer({open,setOpen,markerSelected, select
           }}
         >
           <Box height="100%">
-            <CardDrawer props={selectedDestInfo}/>
+            <CardDrawer props={selectedDestInfo} />
           </Box>
         </StyledBox>
       </SwipeableDrawer>

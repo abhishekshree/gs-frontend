@@ -1,87 +1,91 @@
-import tt from "@tomtom-international/web-sdk-maps";
-import "@tomtom-international/web-sdk-maps/dist/maps.css";
-import * as ttservices from "@tomtom-international/web-sdk-services";
-import { api_key } from "constants.js";
-import { useEffect, useRef, useState } from "react";
-import "../../App.css";
+import tt from '@tomtom-international/web-sdk-maps';
+import '@tomtom-international/web-sdk-maps/dist/maps.css';
+import * as ttservices from '@tomtom-international/web-sdk-services';
+// eslint-disable-next-line camelcase
+import { api_key as API_KEY } from 'constants.js';
+import React, { useEffect, useRef, useState } from 'react';
+import '../../App.css';
 
-function Map({ currLocation, destinations, zoom_level, travel_mode,setOpen,setMarkerSelected,setSelectedDestInfo }) {
+function Map({
+  currLocation,
+  destinations,
+  zoom_level,
+  setOpen,
+  setMarkerSelected,
+  setSelectedDestInfo,
+}) {
   const mapElement = useRef();
   const [map, setMap] = useState(null);
-  
-  function handleMarkerClick(e){
-    setMarkerSelected(Number(e.target.id)); //setMarkerSelected(marker_id) TBD
-    setSelectedDestInfo(destinations[Number(e.target.id)-1]);
-    setOpen("true");
-  }
-  
 
-  function handleMarkerDeselect(e){
-    console.log("deselect");
+  function handleMarkerClick(e) {
+    setMarkerSelected(Number(e.target.id)); // setMarkerSelected(marker_id) TBD
+    setSelectedDestInfo(destinations[Number(e.target.id) - 1]);
+    setOpen('true');
   }
 
-  function create_delivery_marker(location) {
-    const marker_el = document.createElement("div");
-    marker_el.id = location.id.toString();
-    marker_el.className = 'marker-delivery';
+  function createDeliveryMarker(location) {
+    const markerEl = document.createElement('div');
+    markerEl.id = location.id.toString();
+    markerEl.className = 'marker-delivery';
     const popup = new tt.Popup({ offset: 20 }).setHTML(
-      `Location Number:${location.id}`
+      `Location Number:${location.id}`,
     );
-    const marker = new tt.Marker({ id:location.id, element: marker_el, anchor: "bottom" })
+    const marker = new tt.Marker({ id: location.id, element: markerEl, anchor: 'bottom' })
       .setLngLat([location.longitude, location.latitude])
       .addTo(map)
-      .setPopup(popup)
+      .setPopup(popup);
       // .onClose(handleMarkerDeselect);
-    marker_el.addEventListener('click',(e)=>handleMarkerClick(e));
+    markerEl.addEventListener('click', (e) => handleMarkerClick(e));
     return marker;
   }
 
-  function create_driver_marker(location) {
-    const marker_el = document.createElement("div");
-    marker_el.className = 'marker-driver';
-    const marker = new tt.Marker({ element: marker_el, anchor: "bottom" })
+  function createDriverMarker(location) {
+    const markerEl = document.createElement('div');
+    markerEl.className = 'marker-driver';
+    const marker = new tt.Marker({ element: markerEl, anchor: 'bottom' })
       .setLngLat([location.longitude, location.latitude])
       .addTo(map);
 
     return marker;
   }
 
-  const create_route = (locations, i) => {
+  const createRoute = (locations, i) => {
     ttservices.services
       .calculateRoute({
-        key: api_key,
+        key: API_KEY,
         locations,
       })
       .then((routeData) => {
-        const features = routeData.toGeoJson().features;
+        const { features } = routeData.toGeoJson();
         features.forEach((feature, index) => {
           const routeLayer = map.addLayer({
-            id: "route" + i + index,
-            type: "line",
+            id: `route${i}${index}`,
+            type: 'line',
             source: {
-              type: "geojson",
+              type: 'geojson',
               data: feature,
             },
             paint: {
-              "line-color": `red`,
-              "line-opacity": 0.8,
-              "line-width": 6,
-              "line-dasharray": [1, 0, 1, 0],
-            }
+              'line-color': 'red',
+              'line-opacity': 0.8,
+              'line-width': 6,
+              'line-dasharray': [1, 0, 1, 0],
+            },
           });
-          routeLayer.on('click', (e) => {
+          routeLayer.on('click', () => {
             routeLayer.setPaintProperty('line-color', 'blue');
-            // console.log('Layer clicked at:', e);
-        });
+          });
         });
       });
   };
 
   useEffect(() => {
-    let map = tt.map({
-      key: api_key,
+    // eslint-disable-next-line no-shadow
+    const map = tt.map({
+      key: API_KEY,
       container: mapElement.current,
       center: [77.5747463, 12.9140182],
+      // eslint-disable-next-line camelcase
       zoom: zoom_level,
     });
     map.addControl(new tt.FullscreenControl());
@@ -92,33 +96,32 @@ function Map({ currLocation, destinations, zoom_level, travel_mode,setOpen,setMa
 
   useEffect(() => {
     if (map) {
-      create_driver_marker(currLocation);
-      map.on("load", () => {
+      createDriverMarker(currLocation);
+      map.on('load', () => {
         destinations.forEach((location) => {
-          create_delivery_marker(location);
+          createDeliveryMarker(location);
         });
-        create_driver_marker(currLocation);
-        const locations = destinations.map((location) => [location.longitude, location.latitude])
-        locations.unshift([currLocation.longitude, currLocation.latitude])
-        for (let i = 0; i < locations.length; i += 150){
+        createDriverMarker(currLocation);
+        const locations = destinations.map((location) => [location.longitude, location.latitude]);
+        locations.unshift([currLocation.longitude, currLocation.latitude]);
+        for (let i = 0; i < locations.length; i += 150) {
           if (i + 150 > locations.length) {
-            create_route(locations.slice(i), i)
+            createRoute(locations.slice(i), i);
           }
-          create_route(locations.slice(i, i + 150), i)
+          createRoute(locations.slice(i, i + 150), i);
         }
       });
+    } else {
+      console.log('error loading map'); // Add better error handling function
     }
-    else {
-      console.log("error loading map"); //Add better error handling function
-    }
-  },[map,currLocation]);
+  }, [map, currLocation]);
 
   return (
     <div className="map_wrapper">
       <div
         ref={mapElement}
-        className='absolute top-0 left-0 w-full'
-        style={{ height: "calc(100vh - 14vh)" }} 
+        className="absolute top-0 left-0 w-full"
+        style={{ height: 'calc(100vh - 14vh)' }}
       />
     </div>
   );

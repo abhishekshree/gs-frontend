@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react';
 
-const Card = ({ data }) => {
+function Card({ data }) {
   return (
     <div className="shadow-lg flex w-full cursor-pointer">
       <div className="rounded-l-md p-5 w-36 bg-blue-200">
@@ -16,6 +16,6 @@ const Card = ({ data }) => {
       </main>
     </div>
   );
-};
+}
 
 export default Card;

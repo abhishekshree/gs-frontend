@@ -1,13 +1,16 @@
-import React from "react";
-import { useParams } from "react-router-dom";
+import React from 'react';
+import { useParams } from 'react-router-dom';
 
-const User = () => {
-  const {id} = useParams()
+function User() {
+  const { id } = useParams();
 
   return (
     <div className="items-center flex">
       <span className="p-2">
-        <p className="text-white text-lg uppercase hidden lg:inline-block font-semibold">Admin {id}</p>
+        <p className="text-white text-lg uppercase hidden lg:inline-block font-semibold">
+          Admin
+          {id}
+        </p>
       </span>
       <span className="w-12 h-12 text-sm text-white bg-blueGray-200 inline-flex items-center justify-center rounded-full">
         <img
@@ -20,6 +23,6 @@ const User = () => {
       </span>
     </div>
   );
-};
+}
 
 export default User;
